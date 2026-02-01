@@ -1,1 +1,1 @@
-# TedToolkit.Assertions.Abstractions
+# TedToolkit.Assertions
