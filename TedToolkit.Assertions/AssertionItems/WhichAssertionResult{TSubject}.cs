@@ -20,14 +20,14 @@ public readonly record struct WhichAssertionResult<TSubject>
     /// </summary>
     /// <exception cref="InvalidOperationException">invalid operation.</exception>
     internal TSubject Value
-        => _succeed ? field : throw new InvalidOperationException("Assertion failed to create the value.");
+        => _succeed ? field : throw new InvalidOperationException(Localization.Exceptions.WhichAssertionFailed);
 
     /// <summary>
     /// Initializes a new instance of the <see cref="WhichAssertionResult{TSubject}"/> struct.
     /// the default creation.
     /// </summary>
     /// <param name="result">the result value.</param>
-    internal WhichAssertionResult(TSubject result)
+    private WhichAssertionResult(TSubject result)
     {
         _succeed = true;
         Value = result;
