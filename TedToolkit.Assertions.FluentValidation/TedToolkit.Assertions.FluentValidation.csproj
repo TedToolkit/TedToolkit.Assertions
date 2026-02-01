@@ -10,10 +10,6 @@
 
   <ItemGroup>
     <AdditionalFiles Include="Localizations\Localization*.json"/>
-    <PackageReference Include="TedToolkit.Localizations">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="FluentValidation"/>
     <ProjectReference Include="..\TedToolkit.Assertions\TedToolkit.Assertions.csproj"/>
     <Analyzer Include="..\TedToolkit.Assertions.Analyzer\bin\$(Configuration)\netstandard2.0\TedToolkit.Assertions.Analyzer.dll"/>

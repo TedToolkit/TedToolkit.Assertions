@@ -26,7 +26,7 @@
   },
   "ActualStatements": {
     "AllSatisfy": "在{{Indexes}}的元素们并不",
-    "ItIs": "这是“{{Subject}}“",
+    "ItIs": "这是“{{Subject}}”",
     "ThereAre": "这些是{{Subjects}}",
     "ContainSingle": "这里共有{{MatchedCount}}个元素"
   },
