@@ -14,10 +14,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="TedToolkit.Localizations">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="TedToolkit.Localizations"/>
     <PackageReference Include="TedToolkit.Scopes"/>
     <PackageReference Include="ZString" />
   </ItemGroup>

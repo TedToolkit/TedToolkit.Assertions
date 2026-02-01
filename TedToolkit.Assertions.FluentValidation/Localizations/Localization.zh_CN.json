@@ -1,6 +1,0 @@
-{
-  "BeValidBy": {
-    "Normal": "数据[{{SubjectName}}]{{AssertionType}}为合法的。具体消息如下：\n{{Messages}}",
-    "Reversed": "数据[{{SubjectName}}]{{AssertionType}}为非法的。"
-  }
-}
