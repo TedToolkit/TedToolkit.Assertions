@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\externals\TedToolkit\props\CodeAnalysis.props"/>
+  <Import Project="..\externals\TedToolkit\props\NugetPackage.props"/>
+  <Import Project="..\externals\TedToolkit\props\AlmostAllFrameworks.props"/>
+
+  <PropertyGroup>
+    <Title>Assertion</Title>
+    <Description>Some amazing assertion.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="Localizations\Localization*.json"/>
+    <PackageReference Include="Polyfill">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="TedToolkit.Localizations">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="TedToolkit.Scopes"/>
+    <PackageReference Include="ZString" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Analyzer Include="..\TedToolkit.Assertions.Analyzer\bin\$(Configuration)\netstandard2.0\TedToolkit.Assertions.Analyzer.dll"/>
+    <Analyzer Include="..\TedToolkit.Assertions.Analyzer\bin\$(Configuration)\netstandard2.0\TedToolkit.RoslynHelper.dll"/>
+    <Analyzer Include="..\TedToolkit.Assertions.Analyzer\bin\$(Configuration)\netstandard2.0\ZString.dll"/>
+    <Analyzer Include="..\TedToolkit.Assertions.Analyzer\bin\$(Configuration)\netstandard2.0\System.Memory.dll"/>
+
+    <None Include="..\TedToolkit.Assertions.Analyzer\bin\$(Configuration)\netstandard2.0\TedToolkit.Assertions.Analyzer.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
+    <None Include="..\TedToolkit.Assertions.Analyzer\bin\$(Configuration)\netstandard2.0\TedToolkit.RoslynHelper.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
+    <None Include="..\TedToolkit.Assertions.Analyzer\bin\$(Configuration)\netstandard2.0\ZString.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
+    <None Include="..\TedToolkit.Assertions.Analyzer\bin\$(Configuration)\netstandard2.0\System.Memory.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/SolutionItems/">
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Project Path="Build/Build.csproj">
+    <Build Solution="Debug|*" Project="false" />
+  </Project>
+  <Project Path="TedToolkit.Assertions.Analyzer/TedToolkit.Assertions.Analyzer.csproj" />
+  <Project Path="TedToolkit.Assertions.Benchmark/TedToolkit.Assertions.Benchmark.csproj">
+    <Build Solution="Debug|*" Project="false" />
+  </Project>
+  <Project Path="TedToolkit.Assertions.FluentValidation/TedToolkit.Assertions.FluentValidation.csproj" />
+  <Project Path="TedToolkit.Assertions\TedToolkit.Assertions.csproj">
+    <BuildDependency Project="TedToolkit.Assertions.Analyzer/TedToolkit.Assertions.Analyzer.csproj" />
+  </Project>
+</Solution>

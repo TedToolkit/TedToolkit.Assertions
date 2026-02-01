@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\externals\TedToolkit\props\CodeAnalysis.props"/>
+  <Import Project="..\externals\TedToolkit\props\NugetPackage.props"/>
+  <Import Project="..\externals\TedToolkit\props\AlmostAllFrameworks.props"/>
+
+  <PropertyGroup>
+    <Title>Assertion.FluentValidation</Title>
+    <Description>Use this package with Fluent Validation</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="Localizations\Localization*.json"/>
+    <PackageReference Include="TedToolkit.Localizations">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="FluentValidation"/>
+    <ProjectReference Include="..\TedToolkit.Assertions\TedToolkit.Assertions.csproj"/>
+    <Analyzer Include="..\TedToolkit.Assertions.Analyzer\bin\$(Configuration)\netstandard2.0\TedToolkit.Assertions.Analyzer.dll"/>
+    <Analyzer Include="..\TedToolkit.Assertions.Analyzer\bin\$(Configuration)\netstandard2.0\TedToolkit.RoslynHelper.dll"/>
+    <Analyzer Include="..\TedToolkit.Assertions.Analyzer\bin\$(Configuration)\netstandard2.0\ZString.dll"/>
+    <Analyzer Include="..\TedToolkit.Assertions.Analyzer\bin\$(Configuration)\netstandard2.0\System.Memory.dll"/>
+  </ItemGroup>
+</Project>

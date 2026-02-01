@@ -1,0 +1,6 @@
+{
+  "BeValidBy": {
+    "Normal": "The data [{{SubjectName}}] {{AssertionType}} be valid. Messages are as follow:\n{{Messages}}",
+    "Reversed": "The data [{{SubjectName}}] {{AssertionType}} be invalid."
+  }
+}
