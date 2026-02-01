@@ -1,0 +1,44 @@
+{
+  "ExpectedStatements": {
+    "Match": "match {{Expression}}",
+    "BeNull": "be null",
+    "HaveValue": "have value",
+    "Be": "be {{Expected}}",
+    "BeOneOf": "be one of {{Expected}}",
+    "BeInRange": "be between {{MinimumValue}} and {{MaximumValue}}",
+    "BeGreaterThanOrEqualTo": "be greater than or equal to {{ComparedValue}}",
+    "BeGreaterThan": "be greater than {{ComparedValue}}",
+    "BeLessThanOrEqualTo": "be less than or equal to {{ComparedValue}}",
+    "BeLessThan": "be less than {{ComparedValue}}",
+    "BeTypeOf": "be type of {{ExpectedType}}",
+    "BeAssignableTo": "be assignable to {{ExpectedType}}",
+    "HaveFlag": "have flag {{Flag}}",
+    "BeDefined": "be defined",
+    "AllSatisfy": "all satisfy {{Expression}}",
+    "ContainSinglePredicate": "have a single item matching {{Expression}}",
+    "ContainSingleItem": "have a single item which is {{ExpectedValue}}",
+    "ContainPredicate": "have an item matching {{Expression}}",
+    "ContainItem": "contain {{ExpectedValue}}",
+    "BeEmpty": "be empty",
+    "BeDefault": "be default",
+    "BeNullOrEmpty": "be null or empty",
+    "BeNaN": "be NaN"
+  },
+  "ActualStatements": {
+    "AllSatisfy": "the ones at these {{Indexes}} aren't",
+    "ItIs": "it is '{{Subject}}'",
+    "ThereAre": "there are {{Subjects}}",
+    "ContainSingle": "there are {{MatchedCount}} item(s)"
+  },
+  "AssertionGeneral": {
+    "Assertion": {
+      "Normal": "The data [{{SubjectName}}] {{AssertionType}} {{ExpectedStatement}}, but {{ActualStatement}}.",
+      "Reversed": "The data [{{SubjectName}}] {{AssertionType}} NOT {{ExpectedStatement}}, but {{ActualStatement}}."
+    }
+  },
+  "AssertionTypes": {
+    "Could": "COULD",
+    "Should": "SHOULD",
+    "Must": "MUST"
+  }
+}
