@@ -40,5 +40,8 @@
     "Could": "可以",
     "Should": "应该",
     "Must": "必须"
+  },
+  "Exceptions": {
+    "WhichAssertionFailed": "Assertion failed to create the value."
   }
 }
