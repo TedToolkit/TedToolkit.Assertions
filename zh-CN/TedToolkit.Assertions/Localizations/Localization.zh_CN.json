@@ -1,44 +1,44 @@
 {
   "ExpectedStatements": {
-    "Match": "match {{Expression}}",
-    "BeNull": "be null",
-    "HaveValue": "have value",
-    "Be": "be {{Expected}}",
-    "BeOneOf": "be one of {{Expected}}",
-    "BeInRange": "be between {{MinimumValue}} and {{MaximumValue}}",
-    "BeGreaterThanOrEqualTo": "be greater than or equal to {{ComparedValue}}",
-    "BeGreaterThan": "be greater than {{ComparedValue}}",
-    "BeLessThanOrEqualTo": "be less than or equal to {{ComparedValue}}",
-    "BeLessThan": "be less than {{ComparedValue}}",
-    "BeTypeOf": "be type of {{ExpectedType}}",
-    "BeAssignableTo": "be assignable to {{ExpectedType}}",
-    "HaveFlag": "have flag {{Flag}}",
-    "BeDefined": "be defined",
-    "AllSatisfy": "all satisfy {{Expression}}",
-    "ContainSinglePredicate": "have a single item matching {{Expression}}",
-    "ContainSingleItem": "have a single item which is {{ExpectedValue}}",
-    "ContainPredicate": "have an item matching {{Expression}}",
-    "ContainItem": "contain {{ExpectedValue}}",
-    "BeEmpty": "be empty",
-    "BeDefault": "be default",
-    "BeNullOrEmpty": "be null or empty",
-    "BeNaN": "be NaN"
+    "Match": "匹配{{Expression}}",
+    "BeNull": "为null",
+    "HaveValue": "有值",
+    "Be": "为{{Expected}}",
+    "BeOneOf": "为{{Expected}}之一",
+    "BeInRange": "在{{MinimumValue}}到{{MaximumValue}}之间",
+    "BeGreaterThanOrEqualTo": "比{{ComparedValue}}大或者相等",
+    "BeGreaterThan": "比{{ComparedValue}}大",
+    "BeLessThanOrEqualTo": "比{{ComparedValue}}小或者相等",
+    "BeLessThan": "比{{ComparedValue}}小",
+    "BeTypeOf": "是{{ExpectedType}}类型",
+    "BeAssignableTo": "可赋值给{{ExpectedType}}",
+    "HaveFlag": "有值Flag{{Flag}}",
+    "BeDefined": "被定义",
+    "AllSatisfy": "均满足{{Expression}}",
+    "ContainSinglePredicate": "只有一个元素满足{{Expression}}",
+    "ContainSingleItem": "只有一个值为{{ExpectedValue}}的元素",
+    "ContainPredicate": "有一个满足{{Expression}}的元素",
+    "ContainItem": "包含{{ExpectedValue}}",
+    "BeEmpty": "为空",
+    "BeDefault": "为默认值",
+    "BeNullOrEmpty": "为null或空",
+    "BeNaN": "为NaN"
   },
   "ActualStatements": {
-    "AllSatisfy": "the ones at these {{Indexes}} aren't",
-    "ItIs": "it is '{{Subject}}'",
-    "ThereAre": "there are {{Subjects}}",
-    "ContainSingle": "there are {{MatchedCount}} item(s)"
+    "AllSatisfy": "在{{Indexes}}的元素们并不",
+    "ItIs": "这是“{{Subject}}“",
+    "ThereAre": "这些是{{Subjects}}",
+    "ContainSingle": "这里共有{{MatchedCount}}个元素"
   },
   "AssertionGeneral": {
     "Assertion": {
-      "Normal": "The data [{{SubjectName}}] {{AssertionType}} {{ExpectedStatement}}, but {{ActualStatement}}.",
-      "Reversed": "The data [{{SubjectName}}] {{AssertionType}} NOT {{ExpectedStatement}}, but {{ActualStatement}}."
+      "Normal": "数据[{{SubjectName}}]{{AssertionType}}{{ExpectedStatement}}，但是{{ActualStatement}}。",
+      "Reversed": "数据[{{SubjectName}}]{{AssertionType}}不{{ExpectedStatement}}，但是{{ActualStatement}}。"
     }
   },
   "AssertionTypes": {
-    "Could": "COULD",
-    "Should": "SHOULD",
-    "Must": "MUST"
+    "Could": "可以",
+    "Should": "应该",
+    "Must": "必须"
   }
 }
