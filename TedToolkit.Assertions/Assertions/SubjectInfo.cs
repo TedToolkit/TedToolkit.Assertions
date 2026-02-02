@@ -13,15 +13,11 @@ namespace TedToolkit.Assertions;
 /// The info of the subject, which may be record.
 /// </summary>
 /// <param name="SubjectName">subject name.</param>
-/// <param name="MemberName">the member name.</param>
-/// <param name="FilePath">file path.</param>
-/// <param name="LineCount">line count.</param>
+/// <param name="CallerInfo">caller info.</param>
 /// <param name="CreatedAt">created time.</param>
 public readonly record struct SubjectInfo(
     string SubjectName,
-    string MemberName,
-    string FilePath,
-    int LineCount,
+    CallerInfo CallerInfo,
     DateTimeOffset CreatedAt)
 {
     /// <summary>
@@ -31,22 +27,4 @@ public readonly record struct SubjectInfo(
     /// <returns>result.</returns>
     public SubjectInfo SubOperation(string operation)
         => this with { SubjectName = ZString.Concat(SubjectName, " -> ", operation) };
-
-    /// <summary>
-    /// Gets the caller info string.
-    /// </summary>
-    public string CallerInfo
-    {
-        get
-        {
-            using var builder = ZString.CreateStringBuilder();
-            builder.Append("at ");
-            builder.Append(MemberName);
-            builder.Append(" in ");
-            builder.Append(FilePath);
-            builder.Append(":line ");
-            builder.Append(LineCount);
-            return builder.ToString();
-        }
-    }
 }

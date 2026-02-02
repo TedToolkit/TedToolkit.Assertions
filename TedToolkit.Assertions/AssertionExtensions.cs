@@ -81,7 +81,11 @@ public static class AssertionExtensions
         string filePath,
         int lineNumber)
     {
-        return new(subject,
-            new SubjectInfo(subjectName, memberName, filePath, lineNumber, DateTimeOffset.Now));
+        return new(
+            subject,
+            new(
+                subjectName,
+                new(memberName, filePath, lineNumber),
+                DateTimeOffset.Now));
     }
 }
