@@ -5,7 +5,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace TedToolkit.Assertions.CustomAssertionItems;
+namespace TedToolkit.Assertions;
 
 /// <summary>
 /// be one of.

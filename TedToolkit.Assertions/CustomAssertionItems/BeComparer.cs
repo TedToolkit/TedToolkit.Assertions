@@ -7,7 +7,7 @@
 
 using TedToolkit.Assertions.Attributes;
 
-namespace TedToolkit.Assertions.CustomAssertionItems;
+namespace TedToolkit.Assertions;
 #pragma warning disable CA1815
 
 /// <summary>

@@ -195,16 +195,18 @@ public static class AssertionHelpers
         => ZString.Concat(operationName, '[', GetObjectString(item), ']');
 
     /// <summary>
-    /// Gets or sets the time format for <see cref="CreateAssertMessage(in AssertionScope, AssertionType)"/>.
+    /// Gets or sets the time format for <see cref="CreateAssertMessage(in AssertionScope, AssertionType, bool)"/>.
     /// </summary>
     public static string TimeFormat { get; set; } = "yyyy-MM-dd HH:mm:ss.fff zzz";
 
     /// <summary>
     /// Create an assert message.
     /// </summary>
+    /// <param name="info">info.</param>
     /// <param name="message">message.</param>
+    /// <param name="addCallerInfo">add caller info.</param>
     /// <returns>assert message.</returns>
-    public static string CreateAssertMessage(scoped in AssertionMessage message)
+    public static string CreateAssertMessage(scoped in SubjectInfo info, scoped in AssertionMessage message, bool addCallerInfo)
     {
         using var builder = ZString.CreateStringBuilder();
         builder.AppendLine(message.Message);
@@ -215,6 +217,12 @@ public static class AssertionHelpers
             builder.Append(message.Reason);
         }
 
+        if (addCallerInfo)
+        {
+            builder.AppendLine();
+            builder.Append(info.CallerInfo);
+        }
+
         return builder.ToString();
     }
 
@@ -223,8 +231,9 @@ public static class AssertionHelpers
     /// </summary>
     /// <param name="scope">scope.</param>
     /// <param name="minAssertType">min assert type.</param>
+    /// <param name="addCallerInfo">add the caller info.</param>
     /// <returns>assert message.</returns>
-    public static string CreateAssertMessage(scoped in AssertionScope scope, AssertionType minAssertType)
+    public static string CreateAssertMessage(scoped in AssertionScope scope, AssertionType minAssertType, bool addCallerInfo)
     {
         var messageCount = 0;
         string body;
@@ -260,16 +269,12 @@ public static class AssertionHelpers
                     }
                 }
 
-                if (isFirst)
+                if (isFirst || !addCallerInfo)
                     continue;
 
                 bodyBuilder.AppendLine();
-                bodyBuilder.Append("\tat ");
-                bodyBuilder.Append(subject.MemberName);
-                bodyBuilder.Append(" in ");
-                bodyBuilder.Append(subject.FilePath);
-                bodyBuilder.Append(":line ");
-                bodyBuilder.Append(subject.LineCount);
+                bodyBuilder.Append('\t');
+                bodyBuilder.Append(subject.CallerInfo);
             }
 
             body = bodyBuilder.ToString();

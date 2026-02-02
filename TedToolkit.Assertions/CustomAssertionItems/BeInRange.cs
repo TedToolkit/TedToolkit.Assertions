@@ -5,7 +5,7 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-namespace TedToolkit.Assertions.CustomAssertionItems;
+namespace TedToolkit.Assertions;
 
 /// <summary>
 /// Should be in range.

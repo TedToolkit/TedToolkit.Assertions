@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 using TedToolkit.Assertions.Attributes;
 
-namespace TedToolkit.Assertions.CustomAssertionItems;
+namespace TedToolkit.Assertions;
 
 /// <summary>
 /// Match Regex.

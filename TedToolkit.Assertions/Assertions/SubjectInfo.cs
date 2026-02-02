@@ -31,4 +31,22 @@ public readonly record struct SubjectInfo(
     /// <returns>result.</returns>
     public SubjectInfo SubOperation(string operation)
         => this with { SubjectName = ZString.Concat(SubjectName, " -> ", operation) };
+
+    /// <summary>
+    /// Gets the caller info string.
+    /// </summary>
+    public string CallerInfo
+    {
+        get
+        {
+            using var builder = ZString.CreateStringBuilder();
+            builder.Append("at ");
+            builder.Append(MemberName);
+            builder.Append(" in ");
+            builder.Append(FilePath);
+            builder.Append(":line ");
+            builder.Append(LineCount);
+            return builder.ToString();
+        }
+    }
 }

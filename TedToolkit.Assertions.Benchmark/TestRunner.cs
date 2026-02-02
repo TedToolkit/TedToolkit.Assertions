@@ -3,8 +3,6 @@ using BenchmarkDotNet.Configs;
 
 using Shouldly;
 
-using TedToolkit.Assertions.CustomAssertionItems;
-
 namespace TedToolkit.Assertions.Benchmark;
 
 /// <summary>
