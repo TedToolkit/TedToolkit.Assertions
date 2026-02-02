@@ -195,24 +195,19 @@ public static class AssertionHelpers
         => ZString.Concat(operationName, '[', GetObjectString(item), ']');
 
     /// <summary>
-    /// Gets or sets the time format for <see cref="CreateAssertMessage(in SubjectInfo, in AssertionMessage)"/> and
-    /// <see cref="CreateAssertMessage(in AssertionScope)"/>.
+    /// Gets or sets the time format for <see cref="CreateAssertMessage(in AssertionScope, AssertionType)"/>.
     /// </summary>
     public static string TimeFormat { get; set; } = "yyyy-MM-dd HH:mm:ss.fff zzz";
 
     /// <summary>
     /// Create an assert message.
     /// </summary>
-    /// <param name="info">info.</param>
     /// <param name="message">message.</param>
     /// <returns>assert message.</returns>
-    public static string CreateAssertMessage(scoped in SubjectInfo info, scoped in AssertionMessage message)
+    public static string CreateAssertMessage(scoped in AssertionMessage message)
     {
         using var builder = ZString.CreateStringBuilder();
         builder.AppendLine(message.Message);
-        builder.Append("when [");
-        builder.Append(info.CreatedAt, TimeFormat);
-        builder.Append("]");
         if (!string.IsNullOrEmpty(message.Reason))
         {
             builder.AppendLine();
@@ -227,8 +222,9 @@ public static class AssertionHelpers
     /// Create an assert message.
     /// </summary>
     /// <param name="scope">scope.</param>
+    /// <param name="minAssertType">min assert type.</param>
     /// <returns>assert message.</returns>
-    public static string CreateAssertMessage(scoped in AssertionScope scope)
+    public static string CreateAssertMessage(scoped in AssertionScope scope, AssertionType minAssertType)
     {
         var messageCount = 0;
         string body;
@@ -236,15 +232,21 @@ public static class AssertionHelpers
         {
             foreach (var (subject, messages) in scope.Messages)
             {
-                bodyBuilder.AppendLine();
-                bodyBuilder.Append("Subject [");
-                bodyBuilder.Append(subject.SubjectName);
-                bodyBuilder.Append("] when [");
-                bodyBuilder.Append(subject.CreatedAt, TimeFormat);
-                bodyBuilder.Append("]:");
+                var isFirst = true;
 
-                foreach (var message in messages)
+                foreach (var message in messages.Where(m => m.Type >= minAssertType))
                 {
+                    if (isFirst)
+                    {
+                        bodyBuilder.AppendLine();
+                        bodyBuilder.Append("Subject [");
+                        bodyBuilder.Append(subject.SubjectName);
+                        bodyBuilder.Append("] when [");
+                        bodyBuilder.Append(subject.CreatedAt, TimeFormat);
+                        bodyBuilder.Append("]:");
+                        isFirst = false;
+                    }
+
                     bodyBuilder.AppendLine();
                     bodyBuilder.Append('\t');
                     bodyBuilder.Append(++messageCount, "D2");
@@ -257,6 +259,9 @@ public static class AssertionHelpers
                         bodyBuilder.Append(message.Reason);
                     }
                 }
+
+                if (isFirst)
+                    continue;
 
                 bodyBuilder.AppendLine();
                 bodyBuilder.Append("\tat ");
@@ -274,8 +279,6 @@ public static class AssertionHelpers
         using (var headerBuilder = ZString.CreateStringBuilder())
         {
             headerBuilder.Append('[');
-            headerBuilder.Append(DateTimeOffset.Now, TimeFormat);
-            headerBuilder.Append("] [");
             headerBuilder.Append(messageCount);
             headerBuilder.Append(" message(s)]");
             headerBuilder.Append(scope.Context);
