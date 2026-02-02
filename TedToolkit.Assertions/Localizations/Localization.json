@@ -40,5 +40,8 @@
     "Could": "COULD",
     "Should": "SHOULD",
     "Must": "MUST"
+  },
+  "Exceptions": {
+    "WhichAssertionFailed" : "Assertion failed to create the value."
   }
 }

@@ -17,7 +17,7 @@ public static class AssertionStrategy
     /// </summary>
     public static AssertionItemHandler ItemStrategy { get; set; } = (scoped in info, scoped in message) =>
     {
-        var assertMessage = AssertionHelpers.CreateAssertMessage(info, message);
+        var assertMessage = AssertionHelpers.CreateAssertMessage(message);
         throw new ArgumentException(assertMessage, info.SubjectName);
     };
 
@@ -29,7 +29,7 @@ public static class AssertionStrategy
         if (scope.Messages.Count is 0)
             return;
 
-        var assertMessage = AssertionHelpers.CreateAssertMessage(scope);
+        var assertMessage = AssertionHelpers.CreateAssertMessage(scope, 0);
         throw new ArgumentException(assertMessage);
     };
 }

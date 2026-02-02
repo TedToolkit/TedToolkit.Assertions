@@ -162,7 +162,7 @@ public sealed class AssertItemExtensionGenerator : IIncrementalGenerator
             .AddAttribute(Attribute<MethodImplAttribute>()
                 .AddArgument(Argument(MethodImplOptions.AggressiveInlining.ToExpression())))
             .AddParameter(Parameter(new DataType("TedToolkit.Assertions.ObjectAssertion")
-                .Generic(DataType.FromSymbol(interfaceSymbol.TypeArguments[0])), "assertion").This)
+                .Generic(DataType.FromSymbol(interfaceSymbol.TypeArguments[0])).ScopedIn, "assertion").This)
             .AddRootDescription(new DescriptionInheritDoc(DataType.FromSymbol(declaration).Type));
 
         AppendPriority(method, declaration);
