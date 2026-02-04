@@ -52,7 +52,7 @@ public static class AssertionHelpers
             ScopeValues.Struct<AssertionScope>.Current.AddAssertion(assertion.Info.Info, message);
 
         if (!hasCurrent || assertion.IsImmediately)
-            AssertionStrategy.ItemStrategy?.Invoke(assertion.Info.Info, message);
+            AssertionStrategy.ItemStrategy(assertion.Info.Info, message);
     }
 
     /// <summary>

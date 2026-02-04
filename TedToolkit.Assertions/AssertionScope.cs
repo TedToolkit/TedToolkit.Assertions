@@ -17,6 +17,8 @@ namespace TedToolkit.Assertions;
 public readonly record struct AssertionScope() :
     IScope
 {
+    private readonly AssertionScopeHandler? _custom;
+
     /// <summary>
     /// Gets the messages.
     /// </summary>
@@ -38,9 +40,11 @@ public readonly record struct AssertionScope() :
     /// </summary>
     /// <param name="context">the context.</param>
     /// <param name="tag">the tag.</param>
-    public AssertionScope(string context, object? tag = null)
+    /// <param name="customHandler">custom handler.</param>
+    public AssertionScope(string context, object? tag = null, AssertionScopeHandler? customHandler = null)
         : this()
     {
+        _custom = customHandler;
         Context = context;
         Tag = tag;
     }
@@ -67,5 +71,5 @@ public readonly record struct AssertionScope() :
 
     /// <inheritdoc/>
     public void OnExit()
-        => AssertionStrategy.ScopeStrategy?.Invoke(this);
+        => (_custom ?? AssertionStrategy.ScopeStrategy)(this);
 }
