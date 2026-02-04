@@ -75,13 +75,13 @@ public static class ObjectAssertionExtensions
 
         if (assertion.IsInverted)
         {
-            return Localization.AssertionGeneral.Assertion.Normal(assertion.Info.Info.SubjectName,
+            return Localization.AssertionGeneral.Assertion.Reversed(assertion.Info.Info.SubjectName,
                 AssertionHelpers.Translate(assertion.Type),
                 expectedStatement,
                 actualStatement);
         }
 
-        return Localization.AssertionGeneral.Assertion.Reversed(assertion.Info.Info.SubjectName,
+        return Localization.AssertionGeneral.Assertion.Normal(assertion.Info.Info.SubjectName,
             AssertionHelpers.Translate(assertion.Type),
             expectedStatement,
             actualStatement);
