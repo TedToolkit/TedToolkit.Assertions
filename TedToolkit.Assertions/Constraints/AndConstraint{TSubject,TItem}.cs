@@ -49,20 +49,20 @@ public readonly record struct AndConstraint<TSubject, TItem>
         => new(And);
 
     /// <summary>
-    /// Gets get the Value.
+    /// Gets get the Subject.
     /// </summary>
-    public TSubject Value
+    public TSubject Subject
         => And.Info.Subject;
 
     /// <summary>
     /// Gets the item value.
     /// </summary>
-    public TItem ItemValue
+    public TItem SubjectItem
         => _item.Value;
 
     /// <summary>
     /// Gets get the item thing.
     /// </summary>
     public WhichConstraint<TItem> Which
-        => new(new SubjectInfo<TItem>(ItemValue, And.Info.Info.SubOperation(_itemName)), And.IsImmediately);
+        => new(new SubjectInfo<TItem>(SubjectItem, And.Info.Info.SubOperation(_itemName)), And.IsImmediately);
 }
