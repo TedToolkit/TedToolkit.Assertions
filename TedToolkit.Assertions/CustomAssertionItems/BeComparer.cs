@@ -17,6 +17,7 @@ namespace TedToolkit.Assertions;
 /// <param name="equalityComparer">the comparer.</param>
 /// <typeparam name="TSubject">type.</typeparam>
 [AssertionMethodName("Be")]
+[AssertionMethodName("BeEqualTo")]
 internal readonly struct BeComparer<TSubject>(
     TSubject expectedValue,
     IComparer<TSubject>? equalityComparer = null) : IAssertionItem<TSubject>
