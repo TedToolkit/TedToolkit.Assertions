@@ -15,12 +15,15 @@ namespace TedToolkit.Assertions;
 /// </summary>
 /// <param name="expectedValue">expected value.</param>
 /// <param name="comparer"> comparer.</param>
+/// <param name="expectedValueName">expected value name.</param>
 /// <typeparam name="TSubject">the type of the subject.</typeparam>
 /// <typeparam name="TItem">the item.</typeparam>
 [AssertionMethodName("Contain")]
 internal readonly struct ContainComparer<TSubject, TItem>(
     TItem expectedValue,
-    IComparer<TItem>? comparer = null) : IAssertionItem<TSubject>
+    IComparer<TItem>? comparer = null,
+    [AssertionParameterName(nameof(expectedValue))]
+    string expectedValueName = "") : IAssertionItem<TSubject>
     where TSubject : IReadOnlyCollection<TItem>
 {
     /// <inheritdoc />
@@ -40,7 +43,7 @@ internal readonly struct ContainComparer<TSubject, TItem>(
     public string GenerateMessage(scoped in ObjectAssertion<TSubject> assertion)
     {
         return assertion.GetAssertionItemMessage(
-            Localization.ExpectedStatements.ContainItem(AssertionHelpers.GetObjectString(expectedValue)),
+            Localization.ExpectedStatements.ContainItem(expectedValueName, AssertionHelpers.GetObjectString(expectedValue)),
             Localization.ActualStatements.ThereAre(AssertionHelpers.GetObjectsString(assertion.Info.Subject)));
     }
 }
