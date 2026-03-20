@@ -5,6 +5,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using TedToolkit.Assertions.Attributes;
+
 namespace TedToolkit.Assertions;
 
 /// <summary>
@@ -13,11 +15,17 @@ namespace TedToolkit.Assertions;
 /// <param name="minimumValue">min value.</param>
 /// <param name="maximumValue">max value.</param>
 /// <param name="comparer">comparer.</param>
+/// <param name="minimumValueName">min value name.</param>
+/// <param name="maximumValueName">max value name.</param>
 /// <typeparam name="TSubject">type.</typeparam>
 internal readonly struct BeInRange<TSubject>(
     TSubject minimumValue,
     TSubject maximumValue,
-    IComparer<TSubject>? comparer = null) : IAssertionItem<TSubject>
+    IComparer<TSubject>? comparer = null,
+    [AssertionParameterName(nameof(minimumValue))]
+    string minimumValueName = "",
+    [AssertionParameterName(nameof(maximumValue))]
+    string maximumValueName = "") : IAssertionItem<TSubject>
 {
     /// <inheritdoc />
     public bool IsPassed(TSubject subject)
@@ -31,7 +39,7 @@ internal readonly struct BeInRange<TSubject>(
     {
         return assertion.GetAssertionItemMessage(Localization.ExpectedStatements
             .BeInRange(
-                AssertionHelpers.GetObjectString(minimumValue),
-                AssertionHelpers.GetObjectString(maximumValue)));
+                minimumValueName, AssertionHelpers.GetObjectString(minimumValue),
+                maximumValueName, AssertionHelpers.GetObjectString(maximumValue)));
     }
 }

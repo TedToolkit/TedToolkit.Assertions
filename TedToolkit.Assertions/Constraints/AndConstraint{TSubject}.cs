@@ -35,6 +35,6 @@ public readonly record struct AndConstraint<TSubject>
     /// <summary>
     /// Gets get the Value.
     /// </summary>
-    public TSubject Value
+    public TSubject Subject
         => And.Info.Subject;
 }

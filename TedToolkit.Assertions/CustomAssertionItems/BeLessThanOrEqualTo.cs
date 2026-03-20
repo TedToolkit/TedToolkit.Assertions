@@ -5,6 +5,8 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
+using TedToolkit.Assertions.Attributes;
+
 namespace TedToolkit.Assertions;
 #pragma warning disable CA1815
 
@@ -13,10 +15,13 @@ namespace TedToolkit.Assertions;
 /// </summary>
 /// <param name="comparedValue">expected value.</param>
 /// <param name="comparer">the comparer.</param>
+/// <param name="comparedValueName">compared value name.</param>
 /// <typeparam name="TSubject">type.</typeparam>
 public readonly struct BeLessThanOrEqualTo<TSubject>(
     TSubject comparedValue,
-    IComparer<TSubject>? comparer = null) : IAssertionItem<TSubject>
+    IComparer<TSubject>? comparer = null,
+    [AssertionParameterName(nameof(comparedValue))]
+    string comparedValueName = "") : IAssertionItem<TSubject>
 {
     /// <inheritdoc />
     public bool IsPassed(TSubject subject)
@@ -29,6 +34,6 @@ public readonly struct BeLessThanOrEqualTo<TSubject>(
     public string GenerateMessage(scoped in ObjectAssertion<TSubject> assertion)
     {
         return assertion.GetAssertionItemMessage(Localization.ExpectedStatements.BeLessThanOrEqualTo(
-            AssertionHelpers.GetObjectString(comparedValue)));
+            comparedValueName, AssertionHelpers.GetObjectString(comparedValue)));
     }
 }

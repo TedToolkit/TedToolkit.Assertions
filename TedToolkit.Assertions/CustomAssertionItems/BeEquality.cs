@@ -15,12 +15,16 @@ namespace TedToolkit.Assertions;
 /// </summary>
 /// <param name="expectedValue">expected value.</param>
 /// <param name="equalityComparer">comparer.</param>
+/// <param name="expectedValueName">expected value name.</param>
 /// <typeparam name="TSubject">the type.</typeparam>
 [AssertionMethodPriority(1)]
 [AssertionMethodName("Be")]
+[AssertionMethodName("BeEqualTo")]
 internal readonly struct BeEquality<TSubject>(
     TSubject expectedValue,
-    IEqualityComparer<TSubject>? equalityComparer = null) : IAssertionItem<TSubject>
+    IEqualityComparer<TSubject>? equalityComparer = null,
+    [AssertionParameterName(nameof(expectedValue))]
+    string expectedValueName = "") : IAssertionItem<TSubject>
 {
     /// <inheritdoc />
     public bool IsPassed(TSubject subject)
@@ -33,6 +37,6 @@ internal readonly struct BeEquality<TSubject>(
     public string GenerateMessage(scoped in ObjectAssertion<TSubject> assertion)
     {
         return assertion.GetAssertionItemMessage(Localization.ExpectedStatements.Be(
-            AssertionHelpers.GetObjectString(expectedValue)));
+            expectedValueName, AssertionHelpers.GetObjectString(expectedValue)));
     }
 }
