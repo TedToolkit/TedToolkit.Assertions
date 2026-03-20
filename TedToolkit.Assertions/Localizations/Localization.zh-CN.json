@@ -3,13 +3,13 @@
     "Match": "匹配{{Expression}}",
     "BeNull": "为null",
     "HaveValue": "有值",
-    "Be": "为{{Expected}}",
+    "Be": "为 {{Expected}}（{{ExpectedValue}}）",
     "BeOneOf": "为{{Expected}}之一",
-    "BeInRange": "在{{MinimumValue}}到{{MaximumValue}}之间",
-    "BeGreaterThanOrEqualTo": "比{{ComparedValue}}大或者相等",
-    "BeGreaterThan": "比{{ComparedValue}}大",
-    "BeLessThanOrEqualTo": "比{{ComparedValue}}小或者相等",
-    "BeLessThan": "比{{ComparedValue}}小",
+    "BeInRange": "在{{MinimumValueName}}（{{MinimumValue}}）和{{MaximumValueName}}（{{MaximumValue}}）之间",
+    "BeGreaterThanOrEqualTo": "比{{ComparedValueName}}（{{ComparedValue}}）大或者相等",
+    "BeGreaterThan": "比{{ComparedValueName}}（{{ComparedValue}}）大",
+    "BeLessThanOrEqualTo": "比{{ComparedValueName}}（{{ComparedValue}}）小或者相等",
+    "BeLessThan": "比{{ComparedValueName}}（{{ComparedValue}}）小",
     "BeTypeOf": "是{{ExpectedType}}类型",
     "BeAssignableTo": "可赋值给{{ExpectedType}}",
     "HaveFlag": "有值Flag{{Flag}}",
@@ -18,7 +18,7 @@
     "ContainSinglePredicate": "只有一个元素满足{{Expression}}",
     "ContainSingleItem": "只有一个值为{{ExpectedValue}}的元素",
     "ContainPredicate": "有一个满足{{Expression}}的元素",
-    "ContainItem": "包含{{ExpectedValue}}",
+    "ContainItem": "包含{{ExpectedValueName}}（{{ExpectedValue}}）",
     "BeEmpty": "为空",
     "BeDefault": "为默认值",
     "BeNullOrEmpty": "为null或空",
@@ -42,6 +42,6 @@
     "Must": "必须"
   },
   "Exceptions": {
-    "WhichAssertionFailed": "Assertion failed to create the value."
+    "WhichAssertionFailed": "断言创建值失败。"
   }
 }
