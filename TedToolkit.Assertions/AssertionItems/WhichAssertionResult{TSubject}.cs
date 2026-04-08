@@ -8,25 +8,29 @@
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// The which assertion result.
+/// Wraps a value extracted by an <see cref="IAssertionItem{TSubject, TItem}"/> assertion, guarding access so that it throws when the assertion failed.
 /// </summary>
-/// <typeparam name="TSubject">the type.</typeparam>
+/// <typeparam name="TSubject">The type of the extracted value.</typeparam>
 public readonly record struct WhichAssertionResult<TSubject>
 {
     private readonly bool _succeed;
 
     /// <summary>
-    /// Gets the value.
+    /// Gets the extracted value. Throws if the assertion that produced this result did not pass.
     /// </summary>
-    /// <exception cref="InvalidOperationException">invalid operation.</exception>
+    /// <exception cref="InvalidOperationException">The assertion did not succeed, so no value is available.</exception>
     internal TSubject Value
-        => _succeed ? field : throw new InvalidOperationException(Localization.Exceptions.WhichAssertionFailed);
+    {
+        get
+        {
+            return _succeed ? field : throw new InvalidOperationException(Localization.Exceptions.WhichAssertionFailed);
+        }
+    }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="WhichAssertionResult{TSubject}"/> struct.
-    /// the default creation.
+    /// Initializes a new instance of the <see cref="WhichAssertionResult{TSubject}"/> struct with a successfully extracted value.
     /// </summary>
-    /// <param name="result">the result value.</param>
+    /// <param name="result">The extracted value.</param>
     private WhichAssertionResult(TSubject result)
     {
         _succeed = true;

@@ -8,18 +8,20 @@
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// be one of.
+/// Asserts that the subject equals one of the specified values.
 /// </summary>
-/// <param name="expectedValues">values.</param>
-/// <param name="equalityComparer">equality comparer.</param>
-/// <typeparam name="TSubject">the type.</typeparam>
+/// <param name="expectedValues">The collection of allowed values.</param>
+/// <param name="equalityComparer">An optional equality comparer; defaults to <see cref="EqualityComparer{T}.Default"/>.</param>
+/// <typeparam name="TSubject">The type of the subject.</typeparam>
 internal readonly struct BeOneOf<TSubject>(
     IReadOnlyCollection<TSubject> expectedValues,
     IEqualityComparer<TSubject>? equalityComparer = null) : IAssertionItem<TSubject>
 {
     /// <inheritdoc/>
     public bool IsPassed(TSubject subject)
-        => expectedValues.Contains(subject, equalityComparer ?? EqualityComparer<TSubject>.Default);
+    {
+        return expectedValues.Contains(subject, equalityComparer ?? EqualityComparer<TSubject>.Default);
+    }
 
     /// <inheritdoc/>
     public string GenerateMessage(scoped in ObjectAssertion<TSubject> assertion)

@@ -8,7 +8,7 @@
 namespace TedToolkit.Assertions.Strategies;
 
 /// <summary>
-/// The assertion scope handler.
+/// Delegate invoked when an <see cref="AssertionScope"/> exits, receiving all collected assertion failures.
 /// </summary>
-/// <param name="scope">the scope.</param>
+/// <param name="scope">The scope containing the collected assertion messages.</param>
 public delegate void AssertionScopeHandler(scoped in AssertionScope scope);

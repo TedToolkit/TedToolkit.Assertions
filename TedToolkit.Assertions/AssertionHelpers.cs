@@ -18,19 +18,19 @@ using TedToolkit.Scopes;
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// The helpers for the assertion. In the most time, you don't need it.
+/// Low-level helpers used by the assertion infrastructure and source-generated code. Most users will not need to call these directly.
 /// </summary>
 public static class AssertionHelpers
 {
     /// <summary>
-    /// The basic assert action.
+    /// Evaluates a single assertion item against the subject and triggers the failure strategy when the assertion does not pass.
     /// </summary>
-    /// <param name="assertion">the assertion.</param>
-    /// <param name="item">the assertion item.</param>
-    /// <param name="reason">reason.</param>
-    /// <param name="tag">tag.</param>
-    /// <typeparam name="TSubject">subject type.</typeparam>
-    /// <typeparam name="TAssertItem">assertion item type.</typeparam>
+    /// <param name="assertion">The assertion context.</param>
+    /// <param name="item">The assertion item to evaluate.</param>
+    /// <param name="reason">An optional user-supplied reason.</param>
+    /// <param name="tag">An optional user-supplied tag.</param>
+    /// <typeparam name="TSubject">The type of the subject.</typeparam>
+    /// <typeparam name="TAssertItem">The concrete assertion item type.</typeparam>
     public static void Assert<TSubject, TAssertItem>(
         scoped in ObjectAssertion<TSubject> assertion,
         ref TAssertItem item,
@@ -39,7 +39,9 @@ public static class AssertionHelpers
         where TAssertItem : struct, IAssertionItem<TSubject>
     {
         if (item.IsPassed(assertion.Info.Subject) != assertion.IsInverted)
+        {
             return;
+        }
 
         var message = new AssertionMessage(
             assertion.Type,
@@ -49,18 +51,24 @@ public static class AssertionHelpers
 
         var hasCurrent = ScopeValues.Struct<AssertionScope>.HasCurrent;
         if (hasCurrent)
+        {
             ScopeValues.Struct<AssertionScope>.Current.AddAssertion(assertion.Info.Info, message);
+        }
 
-        if (!hasCurrent || assertion.IsImmediately)
-            AssertionStrategy.ItemStrategy(assertion.Info.Info, message);
+        if (hasCurrent && !assertion.IsImmediately)
+        {
+            return;
+        }
+
+        AssertionStrategy.ItemStrategy(assertion.Info.Info, message);
     }
 
     /// <summary>
-    /// Create the constraint.
+    /// Creates an <see cref="AndConstraint{TSubject}"/> for fluent chaining after a non-item-extracting assertion.
     /// </summary>
-    /// <param name="assertion">assertion.</param>
-    /// <typeparam name="TSubject">the type of the subject.</typeparam>
-    /// <returns>result.</returns>
+    /// <param name="assertion">The assertion to chain from.</param>
+    /// <typeparam name="TSubject">The type of the subject.</typeparam>
+    /// <returns>An <see cref="AndConstraint{TSubject}"/> for further chaining.</returns>
     public static AndConstraint<TSubject> CreateConstraint<TSubject>(
         scoped in ObjectAssertion<TSubject> assertion)
     {
@@ -69,14 +77,14 @@ public static class AssertionHelpers
     }
 
     /// <summary>
-    /// Create the constraint.
+    /// Creates an <see cref="AndConstraint{TSubject, TItem}"/> for fluent chaining after an item-extracting assertion, enabling <c>.Which</c> access.
     /// </summary>
-    /// <param name="assertion">assertion.</param>
-    /// <param name="item">assertion item.</param>
-    /// <typeparam name="TSubject">the type of the subject.</typeparam>
-    /// <typeparam name="TItem">the type of the item.</typeparam>
-    /// <typeparam name="TAssertItem">assertion item type.</typeparam>
-    /// <returns>result.</returns>
+    /// <param name="assertion">The assertion to chain from.</param>
+    /// <param name="item">The assertion item that extracted a value.</param>
+    /// <typeparam name="TSubject">The type of the subject.</typeparam>
+    /// <typeparam name="TItem">The type of the extracted item.</typeparam>
+    /// <typeparam name="TAssertItem">The concrete assertion item type.</typeparam>
+    /// <returns>An <see cref="AndConstraint{TSubject, TItem}"/> for further chaining.</returns>
     public static AndConstraint<TSubject, TItem> CreateConstraint<TSubject, TItem, TAssertItem>(
         scoped in ObjectAssertion<TSubject> assertion,
         ref TAssertItem item)
@@ -88,10 +96,10 @@ public static class AssertionHelpers
     }
 
     /// <summary>
-    /// Translate the assertion type.
+    /// Translates an <see cref="AssertionType"/> enum value to its localized display string (e.g. "MUST").
     /// </summary>
-    /// <param name="type">type.</param>
-    /// <returns>result.</returns>
+    /// <param name="type">The assertion type to translate.</param>
+    /// <returns>The localized string representation.</returns>
     public static string Translate(AssertionType type)
     {
         return type switch
@@ -103,17 +111,21 @@ public static class AssertionHelpers
     }
 
     /// <summary>
-    /// Get the full name of one type.
+    /// Returns the fully-qualified name of a type, including generic arguments (e.g. <c>System.Collections.Generic.List&lt;System.String&gt;</c>).
     /// </summary>
-    /// <param name="type">the type.</param>
-    /// <returns>fullname.</returns>
+    /// <param name="type">The type to format, or <see langword="null"/>.</param>
+    /// <returns>The formatted type name, or <c>"&lt;null&gt;"</c> if <paramref name="type"/> is <see langword="null"/>.</returns>
     public static string GetFullName(Type? type)
     {
         if (type is null)
+        {
             return "<null>";
+        }
 
         if (!type.IsGenericType)
+        {
             return GetTypeName(type);
+        }
 
         var typeName = GetTypeName(type.GetGenericTypeDefinition());
         typeName = typeName.Substring(0,
@@ -123,30 +135,37 @@ public static class AssertionHelpers
             ZString.Join(", ", type.GetGenericArguments()
                 .Select(GetFullName)), '>');
 
-        static string GetTypeName(Type type) => type.FullName ?? type.Name;
+        static string GetTypeName(Type type)
+        {
+            return type.FullName ?? type.Name;
+        }
     }
 
     /// <summary>
-    /// To localization.
+    /// Converts a subject value to its string representation, returning <c>"&lt;null&gt;"</c> for <see langword="null"/>.
     /// </summary>
-    /// <param name="subject">the subject.</param>
-    /// <typeparam name="TSubject">the type of the subject.</typeparam>
-    /// <returns>string.</returns>
+    /// <param name="subject">The value to convert.</param>
+    /// <typeparam name="TSubject">The type of the value.</typeparam>
+    /// <returns>The string representation of the value.</returns>
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public static string GetObjectString<TSubject>(TSubject subject)
-        => subject?.ToString() ?? "<null>";
+    {
+        return subject?.ToString() ?? "<null>";
+    }
 
     /// <summary>
-    /// To localizations.
+    /// Converts a sequence of values to a bracketed, comma-separated string representation (truncated to 10 items).
     /// </summary>
-    /// <param name="subjects">the subject.</param>
-    /// <typeparam name="TSubject">the type of the subject.</typeparam>
-    /// <returns>string.</returns>
+    /// <param name="subjects">The values to convert.</param>
+    /// <typeparam name="TSubject">The element type.</typeparam>
+    /// <returns>A formatted string such as <c>[1, 2, 3]</c> or <c>(15)[1, 2, ..., ...]</c> when truncated.</returns>
     public static string GetObjectsString<TSubject>(IEnumerable<TSubject>? subjects)
     {
         const int maxItems = 10;
         if (subjects is null)
+        {
             return "<null>";
+        }
 
         using var builder = ZString.CreateStringBuilder();
         builder.Append('[');
@@ -155,12 +174,16 @@ public static class AssertionHelpers
         foreach (var subject in subjects)
         {
             if (isNotStarted)
+            {
                 builder.Append(", ");
+            }
 
             isNotStarted = true;
 
             if (count < maxItems)
+            {
                 builder.Append(GetObjectString(subject));
+            }
 
             count++;
         }
@@ -176,36 +199,40 @@ public static class AssertionHelpers
     }
 
     /// <summary>
-    /// The operation code string.
+    /// Builds a sub-operation label from an operation name and a code expression (e.g. <c>SingleBy`x =&gt; x &gt; 0`</c>).
     /// </summary>
-    /// <param name="operationName">operation name.</param>
-    /// <param name="code">code.</param>
-    /// <returns>string.</returns>
+    /// <param name="operationName">The operation name prefix.</param>
+    /// <param name="code">The code expression to embed.</param>
+    /// <returns>The formatted label.</returns>
     public static string OperationCode(string operationName, string code)
-        => ZString.Concat(operationName, '`', code, '`');
+    {
+        return ZString.Concat(operationName, '`', code, '`');
+    }
 
     /// <summary>
-    /// The operation item.
+    /// Builds a sub-operation label from an operation name and an item value (e.g. <c>SingleBy[42]</c>).
     /// </summary>
-    /// <param name="operationName">operation name.</param>
-    /// <param name="item">item.</param>
-    /// <typeparam name="TSubject">the type.</typeparam>
-    /// <returns>result.</returns>
+    /// <param name="operationName">The operation name prefix.</param>
+    /// <param name="item">The item value to embed.</param>
+    /// <typeparam name="TSubject">The type of the item.</typeparam>
+    /// <returns>The formatted label.</returns>
     public static string OperationItem<TSubject>(string operationName, TSubject item)
-        => ZString.Concat(operationName, '[', GetObjectString(item), ']');
+    {
+        return ZString.Concat(operationName, '[', GetObjectString(item), ']');
+    }
 
     /// <summary>
-    /// Gets or sets the time format for <see cref="CreateAssertMessage(in AssertionScope, AssertionType, bool)"/>.
+    /// Gets or sets the <see cref="DateTimeOffset"/> format string used when rendering timestamps in scoped assertion messages.
     /// </summary>
     public static string TimeFormat { get; set; } = "yyyy-MM-dd HH:mm:ss.fff zzz";
 
     /// <summary>
-    /// Create an assert message.
+    /// Formats a single assertion failure into a human-readable string.
     /// </summary>
-    /// <param name="info">info.</param>
-    /// <param name="message">message.</param>
-    /// <param name="addCallerInfo">add caller info.</param>
-    /// <returns>assert message.</returns>
+    /// <param name="info">The subject metadata.</param>
+    /// <param name="message">The assertion failure details.</param>
+    /// <param name="addCallerInfo">Whether to append the caller's source location.</param>
+    /// <returns>The formatted failure message.</returns>
     public static string CreateAssertMessage(scoped in SubjectInfo info, scoped in AssertionMessage message, bool addCallerInfo)
     {
         using var builder = ZString.CreateStringBuilder();
@@ -227,12 +254,12 @@ public static class AssertionHelpers
     }
 
     /// <summary>
-    /// Create an assert message.
+    /// Formats all collected assertion failures from a scope into a single human-readable string, filtering by minimum severity.
     /// </summary>
-    /// <param name="scope">scope.</param>
-    /// <param name="minAssertType">min assert type.</param>
-    /// <param name="addCallerInfo">add the caller info.</param>
-    /// <returns>assert message.</returns>
+    /// <param name="scope">The scope containing collected failures.</param>
+    /// <param name="minAssertType">The minimum <see cref="AssertionType"/> to include; failures below this level are omitted.</param>
+    /// <param name="addCallerInfo">Whether to append each subject's caller source location.</param>
+    /// <returns>The formatted aggregated failure message.</returns>
     public static string CreateAssertMessage(scoped in AssertionScope scope, AssertionType minAssertType, bool addCallerInfo)
     {
         var messageCount = 0;
@@ -270,7 +297,9 @@ public static class AssertionHelpers
                 }
 
                 if (isFirst || !addCallerInfo)
+                {
                     continue;
+                }
 
                 bodyBuilder.AppendLine();
                 bodyBuilder.Append('\t');

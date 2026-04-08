@@ -8,12 +8,12 @@
 namespace TedToolkit.Assertions.Strategies;
 
 /// <summary>
-/// The assertion item strategy.
+/// Global configuration point for assertion failure behavior. Replace <see cref="ItemStrategy"/> or <see cref="ScopeStrategy"/> to customize how failures are handled.
 /// </summary>
 public static class AssertionStrategy
 {
     /// <summary>
-    /// Gets or sets the item strategy.
+    /// Gets or sets the handler invoked for individual assertion failures. Defaults to throwing an <see cref="ArgumentException"/>.
     /// </summary>
     public static AssertionItemHandler ItemStrategy { get; set; } = (scoped in info, scoped in message) =>
     {
@@ -22,12 +22,14 @@ public static class AssertionStrategy
     };
 
     /// <summary>
-    /// Gets or sets the scope strategy.
+    /// Gets or sets the handler invoked when an assertion scope exits with collected failures. Defaults to throwing an <see cref="ArgumentException"/>.
     /// </summary>
     public static AssertionScopeHandler ScopeStrategy { get; set; } = (scoped in scope) =>
     {
         if (scope.Messages.Count is 0)
+        {
             return;
+        }
 
         var assertMessage = AssertionHelpers.CreateAssertMessage(scope, 0, true);
         throw new ArgumentException(assertMessage);

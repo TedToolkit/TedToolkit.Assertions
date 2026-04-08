@@ -8,24 +8,24 @@
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// The assertion item. make this type as <b>internal readonly struct</b>.
+/// Defines a single assertion check. Implementors should be <b>internal readonly struct</b>s so the source generator can discover them.
 /// </summary>
-/// <typeparam name="TSubject">the subject.</typeparam>
+/// <typeparam name="TSubject">The type of the subject being asserted.</typeparam>
 #pragma warning disable S3246
 public interface IAssertionItem<TSubject>
 #pragma warning restore S3246
 {
     /// <summary>
-    /// Is passed this assertion.
+    /// Evaluates whether the <paramref name="subject"/> satisfies this assertion.
     /// </summary>
-    /// <param name="subject">the subject.</param>
-    /// <returns>is passed.</returns>
+    /// <param name="subject">The subject value to check.</param>
+    /// <returns><see langword="true"/> if the assertion passes; otherwise <see langword="false"/>.</returns>
     bool IsPassed(TSubject subject);
 
     /// <summary>
-    /// Generate the failed message.
+    /// Generates the failure message shown when this assertion does not pass.
     /// </summary>
-    /// <param name="assertion">assertion item.</param>
-    /// <returns>message.</returns>
+    /// <param name="assertion">The assertion context (subject info, severity, inversion state).</param>
+    /// <returns>The formatted failure message.</returns>
     string GenerateMessage(scoped in ObjectAssertion<TSubject> assertion);
 }

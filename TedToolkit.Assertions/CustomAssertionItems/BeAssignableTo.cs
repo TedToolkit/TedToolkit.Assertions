@@ -8,10 +8,10 @@
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// Be type of.
+/// Asserts that the subject's runtime type is assignable to the specified type.
 /// </summary>
-/// <param name="expectedType">expected type.</param>
-/// <typeparam name="TSubject">the type.</typeparam>
+/// <param name="expectedType">The type the subject should be assignable to.</param>
+/// <typeparam name="TSubject">The declared type of the subject.</typeparam>
 internal readonly struct BeAssignableTo<TSubject>(Type expectedType)
     : IAssertionItem<TSubject>
 {

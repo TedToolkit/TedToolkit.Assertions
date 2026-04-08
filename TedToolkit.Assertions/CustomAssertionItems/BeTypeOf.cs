@@ -8,10 +8,10 @@
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// Be type of.
+/// Asserts that the subject's runtime type is exactly the specified type.
 /// </summary>
-/// <param name="expectedType">expected type.</param>
-/// <typeparam name="TSubject">the type.</typeparam>
+/// <param name="expectedType">The exact type the subject should be.</param>
+/// <typeparam name="TSubject">The declared type of the subject.</typeparam>
 internal readonly struct BeTypeOf<TSubject>(Type expectedType)
     : IAssertionItem<TSubject>
 {

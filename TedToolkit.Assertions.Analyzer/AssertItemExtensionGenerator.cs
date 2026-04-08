@@ -26,7 +26,8 @@ namespace TedToolkit.Assertions.Analyzer;
 #pragma warning disable CS8620
 
 /// <summary>
-/// The generator for the assert items.
+/// A Roslyn incremental source generator that discovers types implementing <c>IAssertionItem&lt;TSubject&gt;</c>
+/// and generates fluent extension methods on <c>ObjectAssertion&lt;TSubject&gt;</c> for each one.
 /// </summary>
 [Generator(LanguageNames.CSharp)]
 public sealed class AssertItemExtensionGenerator : IIncrementalGenerator
@@ -47,13 +48,19 @@ public sealed class AssertItemExtensionGenerator : IIncrementalGenerator
     private static void Generate(SourceProductionContext context, INamedTypeSymbol? symbol)
     {
         if (symbol is null)
+        {
             return;
+        }
 
         if (string.IsNullOrEmpty(symbol.Name))
+        {
             return;
+        }
 
         if (symbol.TypeKind is TypeKind.Interface)
+        {
             return;
+        }
 
         if (symbol.AllInterfaces
                 .FirstOrDefault(i => i.IsGenericType
@@ -67,7 +74,7 @@ public sealed class AssertItemExtensionGenerator : IIncrementalGenerator
                      .FirstOrDefault(i => i.IsGenericType
                                           && i.ConstructUnboundGenericType().FullName is
                                               "TedToolkit.Assertions.IAssertionItem<>") is
-                 { } itemSymbol)
+        { } itemSymbol)
         {
             GenerateItem(context, symbol, itemSymbol);
         }
@@ -114,7 +121,9 @@ public sealed class AssertItemExtensionGenerator : IIncrementalGenerator
                 .Public.Static.Partial;
 
             foreach (var methodName in GetMethodName(declaration))
+            {
                 typeDeclaration.AddMember(GenerateMethod(declaration, interfaceSymbol, addReturn, methodName));
+            }
 
             File()
                 .AddNameSpace(NameSpace(declaration.ContainingNamespace.ToDisplayString())
@@ -128,7 +137,9 @@ public sealed class AssertItemExtensionGenerator : IIncrementalGenerator
             using var builder = ZString.CreateStringBuilder();
             builder.AppendLine(ex.Message);
             if (!string.IsNullOrEmpty(ex.StackTrace))
+            {
                 builder.Append(ex.StackTrace);
+            }
 
             context.AddSource(extensionName, builder.ToString());
         }
@@ -138,9 +149,9 @@ public sealed class AssertItemExtensionGenerator : IIncrementalGenerator
     {
         if (declaration.GetAttributes().FirstOrDefault(a => a.AttributeClass?.FullName is
                     "TedToolkit.Assertions.Attributes.AssertionMethodPriorityAttribute") is not
-                {
-                    ConstructorArguments.Length: > 0,
-                }
+                    {
+                        ConstructorArguments.Length: > 0,
+                    }
 
                 priorityAttribute || priorityAttribute.ConstructorArguments[0].Value is not int priority)
         {
@@ -168,7 +179,9 @@ public sealed class AssertItemExtensionGenerator : IIncrementalGenerator
         AppendPriority(method, declaration);
 
         foreach (var declarationTypeParameter in declaration.TypeParameters)
+        {
             method.AddTypeParameter(TypeParameter(declarationTypeParameter));
+        }
 
         var constructor = declaration.InstanceConstructors.OrderByDescending(i => i.Parameters.Length).FirstOrDefault();
         var assertItemCreation = new ObjectCreationExpression(DataType.FromSymbol(declaration));
@@ -182,9 +195,9 @@ public sealed class AssertItemExtensionGenerator : IIncrementalGenerator
                 var parameter = Parameter(constructorParameter);
                 if (constructorParameter.GetAttributes().FirstOrDefault(a => a.AttributeClass?.FullName is
                             "TedToolkit.Assertions.Attributes.AssertionParameterNameAttribute") is
-                        {
-                            ConstructorArguments.Length: > 0,
-                        }
+                    {
+                        ConstructorArguments.Length: > 0,
+                    }
 
                         attributeData && attributeData.ConstructorArguments[0].Value?.ToString() is { } parameterName)
                 {
@@ -216,7 +229,9 @@ public sealed class AssertItemExtensionGenerator : IIncrementalGenerator
             .AddParameter(Parameter(DataType.Object.Null, "tag").AddNull());
 
         foreach (var lateAddedParameter in lateAddedParameters)
+        {
             method.AddParameter(lateAddedParameter);
+        }
 
         addReturn(method);
 
@@ -231,7 +246,9 @@ public sealed class AssertItemExtensionGenerator : IIncrementalGenerator
         if (symbol.IsGenericType)
         {
             foreach (var symbolTypeParameter in symbol.TypeParameters)
+            {
                 builder.Append(symbolTypeParameter.Name);
+            }
         }
 
         builder.Append("Extension");
@@ -250,19 +267,29 @@ public sealed class AssertItemExtensionGenerator : IIncrementalGenerator
             }
 
             if (attributeData.ConstructorArguments.Length is 0)
+            {
                 continue;
+            }
 
             if (attributeData.ConstructorArguments[0].Value?.ToString() is not { } str)
+            {
                 continue;
+            }
 
             if (string.IsNullOrEmpty(str))
+            {
                 continue;
+            }
 
             returned = true;
             yield return str;
         }
 
-        if (!returned)
-            yield return symbol.Name;
+        if (returned)
+        {
+            yield break;
+        }
+
+        yield return symbol.Name;
     }
 }

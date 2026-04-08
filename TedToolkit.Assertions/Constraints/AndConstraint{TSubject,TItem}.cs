@@ -10,10 +10,10 @@ using Cysharp.Text;
 namespace TedToolkit.Assertions.Constraints;
 
 /// <summary>
-/// The 'and' constraint.
+/// Returned by item-extracting assertion methods to enable fluent chaining and <see cref="Which"/> access to the extracted item.
 /// </summary>
-/// <typeparam name="TSubject">the type of the object.</typeparam>
-/// <typeparam name="TItem">the item.</typeparam>
+/// <typeparam name="TSubject">The type of the subject being asserted.</typeparam>
+/// <typeparam name="TItem">The type of the item extracted by the assertion.</typeparam>
 public readonly record struct AndConstraint<TSubject, TItem>
 {
     private readonly string _itemName;
@@ -22,11 +22,10 @@ public readonly record struct AndConstraint<TSubject, TItem>
 
     /// <summary>
     /// Initializes a new instance of the <see cref="AndConstraint{TSubject, TItem}"/> struct.
-    /// Constructor.
     /// </summary>
-    /// <param name="assertion">the assertion.</param>
-    /// <param name="item">the item.</param>
-    /// <param name="itemName">the item name.</param>
+    /// <param name="assertion">The assertion to continue chaining from.</param>
+    /// <param name="item">The extracted item result.</param>
+    /// <param name="itemName">The operator name used to build the sub-operation label.</param>
     internal AndConstraint(
         scoped in ObjectAssertion<TSubject> assertion,
         scoped in WhichAssertionResult<TItem> item,
@@ -38,31 +37,51 @@ public readonly record struct AndConstraint<TSubject, TItem>
     }
 
     /// <summary>
-    /// Gets 'And' assertion.
+    /// Gets the assertion for chaining additional checks on the same subject.
     /// </summary>
     public ObjectAssertion<TSubject> And { get; }
 
     /// <summary>
-    /// Gets 'And It' assertion.
+    /// Gets a pronoun constraint that allows switching the assertion level (e.g. <c>.AndIt.Should</c>).
     /// </summary>
     public PronounConstraint<TSubject> AndIt
-        => new(And);
+    {
+        get
+        {
+            return new(And);
+        }
+    }
 
     /// <summary>
-    /// Gets get the Subject.
+    /// Gets the subject value.
     /// </summary>
     public TSubject Subject
-        => And.Info.Subject;
+    {
+        get
+        {
+            return And.Info.Subject;
+        }
+    }
 
     /// <summary>
-    /// Gets the item value.
+    /// Gets the extracted item value.
     /// </summary>
     public TItem SubjectItem
-        => _item.Value;
+    {
+        get
+        {
+            return _item.Value;
+        }
+    }
 
     /// <summary>
-    /// Gets get the item thing.
+    /// Gets a <see cref="WhichConstraint{TSubject}"/> that allows starting a new assertion chain on the extracted item.
     /// </summary>
     public WhichConstraint<TItem> Which
-        => new(new SubjectInfo<TItem>(SubjectItem, And.Info.Info.SubOperation(_itemName)), And.IsImmediately);
+    {
+        get
+        {
+            return new(new SubjectInfo<TItem>(SubjectItem, And.Info.Info.SubOperation(_itemName)), And.IsImmediately);
+        }
+    }
 }

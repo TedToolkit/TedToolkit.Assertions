@@ -11,12 +11,12 @@ namespace TedToolkit.Assertions;
 #pragma warning disable CA1815
 
 /// <summary>
-/// Be.
+/// Asserts that the subject equals the expected value using an <see cref="IEqualityComparer{T}"/>.
 /// </summary>
-/// <param name="expectedValue">expected value.</param>
-/// <param name="equalityComparer">comparer.</param>
-/// <param name="expectedValueName">expected value name.</param>
-/// <typeparam name="TSubject">the type.</typeparam>
+/// <param name="expectedValue">The expected value.</param>
+/// <param name="equalityComparer">An optional equality comparer; defaults to <see cref="EqualityComparer{T}.Default"/>.</param>
+/// <param name="expectedValueName">The captured expression of the expected value (auto-filled by the source generator).</param>
+/// <typeparam name="TSubject">The type of the subject.</typeparam>
 [AssertionMethodPriority(1)]
 [AssertionMethodName("Be")]
 [AssertionMethodName("BeEqualTo")]

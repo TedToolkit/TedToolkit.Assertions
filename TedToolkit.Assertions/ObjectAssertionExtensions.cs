@@ -11,7 +11,7 @@ using System.Collections;
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// The extensions for the assertions.
+/// Provides modifier properties (<c>.Immediately</c> and <c>.Not</c>) and helper methods on <see cref="ObjectAssertion{TSubject}"/>.
 /// </summary>
 public static class ObjectAssertionExtensions
 {
@@ -20,9 +20,9 @@ public static class ObjectAssertionExtensions
 #pragma warning restore CA1034
     {
         /// <summary>
-        /// Gets immediately.
+        /// Gets the assertion modified to evaluate immediately, bypassing scope collection.
         /// </summary>
-        /// <exception cref="InvalidOperationException">it is already immediately.</exception>
+        /// <exception cref="InvalidOperationException">This modifier has already been applied.</exception>
         public ObjectAssertion<TSubject> Immediately
         {
             get
@@ -38,9 +38,9 @@ public static class ObjectAssertionExtensions
         }
 
         /// <summary>
-        /// Gets revert.
+        /// Gets the assertion negated so that it passes when the original condition would fail, and vice versa.
         /// </summary>
-        /// <exception cref="InvalidOperationException">it is already reverted.</exception>
+        /// <exception cref="InvalidOperationException">This modifier has already been applied.</exception>
         public ObjectAssertion<TSubject> Not
         {
             get
@@ -57,13 +57,13 @@ public static class ObjectAssertionExtensions
     }
 
     /// <summary>
-    /// Get the assertion message.
+    /// Builds a localized assertion failure message from the expected and actual statements.
     /// </summary>
-    /// <param name="assertion">assertion.</param>
-    /// <param name="expectedStatement">statement.</param>
-    /// <param name="actualStatement">subject name.</param>
-    /// <typeparam name="TSubject">the type of the subject.</typeparam>
-    /// <returns>result.</returns>
+    /// <param name="assertion">The assertion context.</param>
+    /// <param name="expectedStatement">A phrase describing the expected condition (e.g. "be null").</param>
+    /// <param name="actualStatement">A phrase describing the actual value; defaults to the subject's string representation.</param>
+    /// <typeparam name="TSubject">The type of the subject.</typeparam>
+    /// <returns>The formatted failure message.</returns>
     public static string GetAssertionItemMessage<TSubject>(this scoped in ObjectAssertion<TSubject> assertion,
         string expectedStatement, string actualStatement = "")
     {

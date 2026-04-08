@@ -10,18 +10,22 @@ using TedToolkit.Assertions.Attributes;
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// be null.
+/// Asserts that the reference-type subject is <see langword="null"/>.
 /// </summary>
-/// <typeparam name="TSubject">the type.</typeparam>
+/// <typeparam name="TSubject">The reference type of the subject.</typeparam>
 [AssertionMethodName("BeNull")]
 internal readonly struct ClassBeNull<TSubject> : IAssertionItem<TSubject>
     where TSubject : class?
 {
     /// <inheritdoc/>
     public bool IsPassed(TSubject subject)
-        => subject is null;
+    {
+        return subject is null;
+    }
 
     /// <inheritdoc/>
     public string GenerateMessage(scoped in ObjectAssertion<TSubject> assertion)
-        => assertion.GetAssertionItemMessage(Localization.ExpectedStatements.BeNull);
+    {
+        return assertion.GetAssertionItemMessage(Localization.ExpectedStatements.BeNull);
+    }
 }

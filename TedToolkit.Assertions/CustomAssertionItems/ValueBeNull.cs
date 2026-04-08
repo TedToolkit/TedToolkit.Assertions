@@ -10,9 +10,9 @@ using TedToolkit.Assertions.Attributes;
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// Be null.
+/// Asserts that the nullable value-type subject is <see langword="null"/>. When the subject has a value, the inner value is extractable via <c>.Which</c>.
 /// </summary>
-/// <typeparam name="TSubject">the type.</typeparam>
+/// <typeparam name="TSubject">The underlying value type.</typeparam>
 [AssertionMethodName("BeNull")]
 internal struct ValueBeNull<TSubject> : IAssertionItem<TSubject?, TSubject>
     where TSubject : struct
@@ -21,19 +21,28 @@ internal struct ValueBeNull<TSubject> : IAssertionItem<TSubject?, TSubject>
     public bool IsPassed(TSubject? subject)
     {
         if (subject is not null)
+        {
             Item = subject.Value;
+        }
 
         return subject is null;
     }
 
     /// <inheritdoc/>
     public readonly string GenerateMessage(scoped in ObjectAssertion<TSubject?> assertion)
-        => assertion.GetAssertionItemMessage(Localization.ExpectedStatements.BeNull);
+    {
+        return assertion.GetAssertionItemMessage(Localization.ExpectedStatements.BeNull);
+    }
 
     /// <inheritdoc/>
     public WhichAssertionResult<TSubject> Item { get; private set; }
 
     /// <inheritdoc/>
     public readonly string OperatorName
-        => "Value";
+    {
+        get
+        {
+            return "Value";
+        }
+    }
 }

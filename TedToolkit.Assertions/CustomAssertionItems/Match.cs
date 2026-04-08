@@ -10,11 +10,11 @@ using TedToolkit.Assertions.Attributes;
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// Match item.
+/// Asserts that the subject satisfies the given predicate.
 /// </summary>
-/// <param name="predicate">predicate.</param>
-/// <param name="predicateName">predicate name.</param>
-/// <typeparam name="TSubject">the subject.</typeparam>
+/// <param name="predicate">The predicate the subject must satisfy.</param>
+/// <param name="predicateName">The captured expression of the predicate (auto-filled by the source generator).</param>
+/// <typeparam name="TSubject">The type of the subject.</typeparam>
 internal readonly struct Match<TSubject>(
     Func<TSubject, bool> predicate,
     [AssertionParameterName(nameof(predicate))]
@@ -23,9 +23,13 @@ internal readonly struct Match<TSubject>(
 {
     /// <inheritdoc/>
     public bool IsPassed(TSubject subject)
-        => predicate(subject);
+    {
+        return predicate(subject);
+    }
 
     /// <inheritdoc/>
     public string GenerateMessage(scoped in ObjectAssertion<TSubject> assertion)
-        => assertion.GetAssertionItemMessage(Localization.ExpectedStatements.Match(predicateName));
+    {
+        return assertion.GetAssertionItemMessage(Localization.ExpectedStatements.Match(predicateName));
+    }
 }

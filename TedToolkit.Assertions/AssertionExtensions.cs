@@ -10,12 +10,12 @@ using System.Runtime.CompilerServices;
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// The extension of.
+/// Provides the fluent entry-point extension methods (<see cref="Must{TSubject}"/>, <see cref="Should{TSubject}"/>, <see cref="Could{TSubject}"/>) for starting an assertion chain on any value.
 /// </summary>
 public static class AssertionExtensions
 {
     /// <summary>
-    ///     The must assertion.
+    ///     Begins a <see cref="AssertionType.MUST"/>-level (required) assertion on the <paramref name="subject"/>.
     /// </summary>
     /// <inheritdoc cref="CreateInfo"/>
     /// <returns>assertion object.</returns>
@@ -32,7 +32,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    ///     The should assertion.
+    ///     Begins a <see cref="AssertionType.SHOULD"/>-level (recommended) assertion on the <paramref name="subject"/>.
     /// </summary>
     /// <inheritdoc cref="CreateInfo"/>
     /// <returns>assertion object.</returns>
@@ -49,7 +49,7 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    ///     The could assertion.
+    ///     Begins a <see cref="AssertionType.COULD"/>-level (advisory) assertion on the <paramref name="subject"/>.
     /// </summary>
     /// <inheritdoc cref="CreateInfo"/>
     /// <returns>assertion object.</returns>
@@ -66,15 +66,15 @@ public static class AssertionExtensions
     }
 
     /// <summary>
-    /// Create the info of the data.
+    /// Creates a <see cref="SubjectInfo{TSubject}"/> that pairs the subject value with its caller metadata.
     /// </summary>
-    /// <param name="subject">subject.</param>
-    /// <param name="subjectName">subject name.</param>
-    /// <param name="memberName">caller member name.</param>
-    /// <param name="filePath">caller file path.</param>
-    /// <param name="lineNumber">caller line number.</param>
-    /// <typeparam name="TSubject">the type of the subject.</typeparam>
-    /// <returns>info.</returns>
+    /// <param name="subject">The subject value.</param>
+    /// <param name="subjectName">The expression name of the subject.</param>
+    /// <param name="memberName">The caller's member name.</param>
+    /// <param name="filePath">The caller's source file path.</param>
+    /// <param name="lineNumber">The caller's source line number.</param>
+    /// <typeparam name="TSubject">The type of the subject.</typeparam>
+    /// <returns>A new <see cref="SubjectInfo{TSubject}"/>.</returns>
     private static SubjectInfo<TSubject> CreateInfo<TSubject>(TSubject subject,
         string subjectName,
         string memberName,

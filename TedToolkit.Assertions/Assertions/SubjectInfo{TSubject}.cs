@@ -8,9 +8,9 @@
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// The subject info.
+/// Holds the subject value together with its associated metadata.
 /// </summary>
-/// <param name="Subject">subject.</param>
-/// <param name="Info">the info of the subject.</param>
-/// <typeparam name="TSubject">type of the subject.</typeparam>
+/// <param name="Subject">The subject value being asserted.</param>
+/// <param name="Info">The metadata describing the subject (name, caller info, and creation time).</param>
+/// <typeparam name="TSubject">The type of the subject.</typeparam>
 public readonly record struct SubjectInfo<TSubject>(TSubject Subject, SubjectInfo Info);

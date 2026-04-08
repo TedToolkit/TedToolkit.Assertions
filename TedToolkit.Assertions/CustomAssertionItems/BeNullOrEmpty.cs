@@ -8,15 +8,19 @@
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// Be empty.
+/// Asserts that the <see cref="string"/> subject is <see langword="null"/> or <see cref="string.Empty"/>.
 /// </summary>
 internal readonly struct BeNullOrEmpty : IAssertionItem<string>
 {
     /// <inheritdoc />
     public bool IsPassed(string subject)
-        => string.IsNullOrEmpty(subject);
+    {
+        return string.IsNullOrEmpty(subject);
+    }
 
     /// <inheritdoc/>
     public string GenerateMessage(scoped in ObjectAssertion<string> assertion)
-        => assertion.GetAssertionItemMessage(Localization.ExpectedStatements.BeNullOrEmpty);
+    {
+        return assertion.GetAssertionItemMessage(Localization.ExpectedStatements.BeNullOrEmpty);
+    }
 }

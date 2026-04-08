@@ -1,4 +1,4 @@
-﻿// -----------------------------------------------------------------------
+// -----------------------------------------------------------------------
 // <copyright file="CallerInfo.cs" company="TedToolkit">
 // Copyright (c) TedToolkit. All rights reserved.
 // Licensed under the LGPL-3.0 license. See COPYING, COPYING.LESSER file in the project root for full license information.
@@ -10,11 +10,11 @@ using Cysharp.Text;
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// Caller info.
+/// Captures the caller's location at the point where an assertion was created.
 /// </summary>
-/// <param name="MemberName">the member name.</param>
-/// <param name="FilePath">file path.</param>
-/// <param name="LineCount">line count.</param>
+/// <param name="MemberName">The name of the calling member.</param>
+/// <param name="FilePath">The source file path of the caller.</param>
+/// <param name="LineCount">The line number in the source file.</param>
 public readonly record struct CallerInfo(
     string MemberName,
     string FilePath,

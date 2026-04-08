@@ -14,11 +14,11 @@ using FluentValidation.Results;
 namespace TedToolkit.Assertions.FluentValidation;
 
 /// <summary>
-/// Be valid by validator.
+/// Asserts that the subject passes validation by the specified <see cref="IValidator{T}"/>.
 /// </summary>
-/// <param name="validator">validator.</param>
-/// <param name="options">option.</param>
-/// <typeparam name="TSubject">the type.</typeparam>
+/// <param name="validator">The FluentValidation validator to run.</param>
+/// <param name="options">An optional callback to configure the validation strategy (e.g. include specific rule sets).</param>
+/// <typeparam name="TSubject">The type of the subject being validated.</typeparam>
 internal struct BeValidBy<TSubject>(
     IValidator<TSubject> validator,
     Action<ValidationStrategy<TSubject>>? options = null) :
@@ -53,5 +53,7 @@ internal struct BeValidBy<TSubject>(
     }
 
     private static string ToErrorMessage(ValidationFailure failure)
-        => failure.ErrorMessage;
+    {
+        return failure.ErrorMessage;
+    }
 }

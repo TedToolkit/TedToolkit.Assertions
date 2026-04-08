@@ -10,14 +10,14 @@ using TedToolkit.Assertions.Attributes;
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// Should be in range.
+/// Asserts that the subject falls within the inclusive range [<paramref name="minimumValue"/>, <paramref name="maximumValue"/>].
 /// </summary>
-/// <param name="minimumValue">min value.</param>
-/// <param name="maximumValue">max value.</param>
-/// <param name="comparer">comparer.</param>
-/// <param name="minimumValueName">min value name.</param>
-/// <param name="maximumValueName">max value name.</param>
-/// <typeparam name="TSubject">type.</typeparam>
+/// <param name="minimumValue">The lower bound (inclusive).</param>
+/// <param name="maximumValue">The upper bound (inclusive).</param>
+/// <param name="comparer">An optional comparer; defaults to <see cref="Comparer{T}.Default"/>.</param>
+/// <param name="minimumValueName">The captured expression of the minimum value (auto-filled by the source generator).</param>
+/// <param name="maximumValueName">The captured expression of the maximum value (auto-filled by the source generator).</param>
+/// <typeparam name="TSubject">The type of the subject.</typeparam>
 internal readonly struct BeInRange<TSubject>(
     TSubject minimumValue,
     TSubject maximumValue,

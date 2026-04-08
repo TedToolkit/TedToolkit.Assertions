@@ -11,13 +11,13 @@ namespace TedToolkit.Assertions;
 #pragma warning disable CA1815
 
 /// <summary>
-/// Contain single.
+/// Asserts that the collection contains an item equal to the expected value, using an <see cref="IEqualityComparer{T}"/>.
 /// </summary>
-/// <param name="expectedValue">expected value.</param>
-/// <param name="equalityComparer">equality comparer.</param>
-/// <param name="expectedValueName">expected value name.</param>
-/// <typeparam name="TSubject">the type of the subject.</typeparam>
-/// <typeparam name="TItem">the item.</typeparam>
+/// <param name="expectedValue">The value to search for.</param>
+/// <param name="equalityComparer">An optional equality comparer; defaults to <see cref="EqualityComparer{T}.Default"/>.</param>
+/// <param name="expectedValueName">The captured expression of the expected value (auto-filled by the source generator).</param>
+/// <typeparam name="TSubject">The collection type.</typeparam>
+/// <typeparam name="TItem">The element type.</typeparam>
 [AssertionMethodName("Contain")]
 [AssertionMethodPriority(1)]
 internal readonly struct ContainEquality<TSubject, TItem>(
@@ -34,7 +34,9 @@ internal readonly struct ContainEquality<TSubject, TItem>(
         foreach (var item in subject)
         {
             if (comparer.Equals(item, expectedValue))
+            {
                 return true;
+            }
         }
 
         return false;

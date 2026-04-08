@@ -11,12 +11,12 @@ namespace TedToolkit.Assertions;
 #pragma warning disable CA1815
 
 /// <summary>
-/// Be less than.
+/// Asserts that the subject is less than the specified value.
 /// </summary>
-/// <param name="comparedValue">expected value.</param>
-/// <param name="comparer">the comparer.</param>
-/// <param name="comparedValueName">compared value name.</param>
-/// <typeparam name="TSubject">type.</typeparam>
+/// <param name="comparedValue">The value the subject must be below.</param>
+/// <param name="comparer">An optional comparer; defaults to <see cref="Comparer{T}.Default"/>.</param>
+/// <param name="comparedValueName">The captured expression of the compared value (auto-filled by the source generator).</param>
+/// <typeparam name="TSubject">The type of the subject.</typeparam>
 public readonly struct BeLessThan<TSubject>(
     TSubject comparedValue,
     IComparer<TSubject>? comparer = null,
