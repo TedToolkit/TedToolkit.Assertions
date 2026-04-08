@@ -10,8 +10,8 @@ using TedToolkit.Assertions.AssertionData;
 namespace TedToolkit.Assertions.Strategies;
 
 /// <summary>
-/// The assertion item handler.
+/// Delegate invoked when an individual assertion fails (outside a scope, or when <c>.Immediately</c> is used inside a scope).
 /// </summary>
-/// <param name="info">subject info.</param>
-/// <param name="message">assert message.</param>
+/// <param name="info">The metadata of the subject that failed.</param>
+/// <param name="message">The assertion failure details.</param>
 public delegate void AssertionItemHandler(scoped in SubjectInfo info, scoped in AssertionMessage message);

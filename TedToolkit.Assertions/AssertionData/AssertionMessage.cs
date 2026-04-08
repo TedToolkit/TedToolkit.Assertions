@@ -8,10 +8,10 @@
 namespace TedToolkit.Assertions.AssertionData;
 
 /// <summary>
-/// An assertion Message.
+/// Encapsulates the result of a failed assertion: its severity, formatted message, optional reason, and optional tag.
 /// </summary>
-/// <param name="Type">Assertion Type.</param>
-/// <param name="Message">message.</param>
-/// <param name="Reason">reason.</param>
-/// <param name="Tag">tag.</param>
+/// <param name="Type">The assertion severity level.</param>
+/// <param name="Message">The formatted failure message.</param>
+/// <param name="Reason">An optional user-supplied reason describing why this assertion exists.</param>
+/// <param name="Tag">An optional user-supplied object for categorizing or filtering assertion results.</param>
 public readonly record struct AssertionMessage(AssertionType Type, string Message, string Reason, object? Tag);

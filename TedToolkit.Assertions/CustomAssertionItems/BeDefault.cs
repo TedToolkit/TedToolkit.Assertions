@@ -8,17 +8,21 @@
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// Be empty.
+/// Asserts that the subject equals its type's default value.
 /// </summary>
-/// <typeparam name="TSubject">the type of the subject.</typeparam>
+/// <typeparam name="TSubject">The value type of the subject.</typeparam>
 internal readonly struct BeDefault<TSubject> : IAssertionItem<TSubject>
     where TSubject : struct
 {
     /// <inheritdoc />
     public bool IsPassed(TSubject subject)
-        => EqualityComparer<object>.Default.Equals(subject, default(TSubject));
+    {
+        return EqualityComparer<object>.Default.Equals(subject, default(TSubject));
+    }
 
     /// <inheritdoc/>
     public string GenerateMessage(scoped in ObjectAssertion<TSubject> assertion)
-        => assertion.GetAssertionItemMessage(Localization.ExpectedStatements.BeDefault);
+    {
+        return assertion.GetAssertionItemMessage(Localization.ExpectedStatements.BeDefault);
+    }
 }

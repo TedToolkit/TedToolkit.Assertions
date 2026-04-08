@@ -10,9 +10,9 @@ using System.Diagnostics;
 namespace TedToolkit.Assertions.Attributes;
 
 /// <summary>
-/// The assertion method priority attribute.
+/// Sets the <c>[OverloadResolutionPriority]</c> on the generated extension method, controlling which overload the compiler prefers when multiple assertion items produce methods with the same name.
 /// </summary>
-/// <param name="priority">priority.</param>
+/// <param name="priority">The overload resolution priority value (higher is preferred).</param>
 [Conditional("CODE_ANALYSIS")]
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct)]
 #pragma warning disable CS9113, CA1019

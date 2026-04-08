@@ -11,12 +11,12 @@ namespace TedToolkit.Assertions;
 #pragma warning disable CA1815
 
 /// <summary>
-/// Be greater than or equal to.
+/// Asserts that the subject is greater than or equal to the specified value.
 /// </summary>
-/// <param name="comparedValue">expected value.</param>
-/// <param name="comparer">the comparer.</param>
-/// <param name="comparedValueName">compared value name.</param>
-/// <typeparam name="TSubject">type.</typeparam>
+/// <param name="comparedValue">The lower bound (inclusive).</param>
+/// <param name="comparer">An optional comparer; defaults to <see cref="Comparer{T}.Default"/>.</param>
+/// <param name="comparedValueName">The captured expression of the compared value (auto-filled by the source generator).</param>
+/// <typeparam name="TSubject">The type of the subject.</typeparam>
 public readonly struct BeGreaterThanOrEqualTo<TSubject>(
     TSubject comparedValue,
     IComparer<TSubject>? comparer = null,

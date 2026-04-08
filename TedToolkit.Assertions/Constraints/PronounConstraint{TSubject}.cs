@@ -8,36 +8,52 @@
 namespace TedToolkit.Assertions.Constraints;
 
 /// <summary>
-/// The pronoun constraint.
+/// Allows re-entering the assertion chain with a different severity level on the same subject (e.g. <c>.AndIt.Should</c>).
 /// </summary>
-/// <typeparam name="TSubject">the type of the subject.</typeparam>
+/// <typeparam name="TSubject">The type of the subject being asserted.</typeparam>
 public readonly record struct PronounConstraint<TSubject>
 {
     private readonly ObjectAssertion<TSubject> _assertion;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="PronounConstraint{TSubject}"/> struct.
-    /// Constructor.
     /// </summary>
-    /// <param name="assertion">the assertion.</param>
+    /// <param name="assertion">The preceding assertion to carry forward.</param>
     internal PronounConstraint(scoped in ObjectAssertion<TSubject> assertion)
-        => _assertion = assertion;
+    {
+        _assertion = assertion;
+    }
 
     /// <summary>
-    /// Gets the must assertion.
+    /// Gets a <see cref="AssertionType.MUST"/>-level assertion on the same subject.
     /// </summary>
     public ObjectAssertion<TSubject> Must
-        => _assertion with { Type = AssertionType.MUST, IsInverted = false };
+    {
+        get
+        {
+            return _assertion with { Type = AssertionType.MUST, IsInverted = false };
+        }
+    }
 
     /// <summary>
-    /// Gets the should assertion.
+    /// Gets a <see cref="AssertionType.SHOULD"/>-level assertion on the same subject.
     /// </summary>
     public ObjectAssertion<TSubject> Should
-        => _assertion with { Type = AssertionType.SHOULD, IsInverted = false };
+    {
+        get
+        {
+            return _assertion with { Type = AssertionType.SHOULD, IsInverted = false };
+        }
+    }
 
     /// <summary>
-    /// Gets the could assertion.
+    /// Gets a <see cref="AssertionType.COULD"/>-level assertion on the same subject.
     /// </summary>
     public ObjectAssertion<TSubject> Could
-        => _assertion with { Type = AssertionType.COULD, IsInverted = false };
+    {
+        get
+        {
+            return _assertion with { Type = AssertionType.COULD, IsInverted = false };
+        }
+    }
 }

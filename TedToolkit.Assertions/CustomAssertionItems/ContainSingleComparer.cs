@@ -13,12 +13,12 @@ namespace TedToolkit.Assertions;
 #pragma warning disable CA1815
 
 /// <summary>
-/// Contain single.
+/// Asserts that the collection contains exactly one item equal to the expected value, using an <see cref="IComparer{T}"/>. The matched item is extractable via <c>.Which</c>.
 /// </summary>
-/// <typeparam name="TSubject">the type of the subject.</typeparam>
-/// <typeparam name="TItem">the item.</typeparam>
-/// <param name="expectedValue">expected value.</param>
-/// <param name="comparer">equality comparer.</param>
+/// <typeparam name="TSubject">The collection type.</typeparam>
+/// <typeparam name="TItem">The element type.</typeparam>
+/// <param name="expectedValue">The value to match.</param>
+/// <param name="comparer">An optional comparer; defaults to <see cref="Comparer{T}.Default"/>.</param>
 [AssertionMethodName("ContainSingle")]
 internal struct ContainSingleComparer<TSubject, TItem>(
     TItem expectedValue,
@@ -36,7 +36,9 @@ internal struct ContainSingleComparer<TSubject, TItem>(
         foreach (var item in subject)
         {
             if (realComparer.Compare(item, expectedValue) is 0)
+            {
                 items.Add(item);
+            }
         }
 
         if (items.Count is not 1)
@@ -62,5 +64,10 @@ internal struct ContainSingleComparer<TSubject, TItem>(
 
     /// <inheritdoc/>
     public string OperatorName
-        => AssertionHelpers.OperationItem("SingleBy", expectedValue);
+    {
+        get
+        {
+            return AssertionHelpers.OperationItem("SingleBy", expectedValue);
+        }
+    }
 }

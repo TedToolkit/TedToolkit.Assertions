@@ -10,16 +10,20 @@ using TedToolkit.Assertions.Attributes;
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// Be empty.
+/// Asserts that the <see cref="Guid"/> subject is <see cref="Guid.Empty"/>.
 /// </summary>
 [AssertionMethodName("BeEmpty")]
 internal readonly struct BeEmptyGuid : IAssertionItem<Guid>
 {
     /// <inheritdoc />
     public bool IsPassed(Guid subject)
-        => subject == Guid.Empty;
+    {
+        return subject == Guid.Empty;
+    }
 
     /// <inheritdoc/>
     public string GenerateMessage(scoped in ObjectAssertion<Guid> assertion)
-        => assertion.GetAssertionItemMessage(Localization.ExpectedStatements.BeEmpty);
+    {
+        return assertion.GetAssertionItemMessage(Localization.ExpectedStatements.BeEmpty);
+    }
 }

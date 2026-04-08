@@ -13,12 +13,12 @@ namespace TedToolkit.Assertions;
 #pragma warning disable CA1815
 
 /// <summary>
-/// Contain single.
+/// Asserts that the collection contains exactly one item equal to the expected value, using an <see cref="IEqualityComparer{T}"/>. The matched item is extractable via <c>.Which</c>.
 /// </summary>
-/// <typeparam name="TSubject">the type of the subject.</typeparam>
-/// <typeparam name="TItem">the item.</typeparam>
-/// <param name="expectedValue">expected value.</param>
-/// <param name="equalityComparer">equality comparer.</param>
+/// <typeparam name="TSubject">The collection type.</typeparam>
+/// <typeparam name="TItem">The element type.</typeparam>
+/// <param name="expectedValue">The value to match.</param>
+/// <param name="equalityComparer">An optional equality comparer; defaults to <see cref="EqualityComparer{T}.Default"/>.</param>
 [AssertionMethodPriority(1)]
 [AssertionMethodName("ContainSingle")]
 internal struct ContainSingleEquality<TSubject, TItem>(
@@ -37,7 +37,9 @@ internal struct ContainSingleEquality<TSubject, TItem>(
         foreach (var item in subject)
         {
             if (comparer.Equals(item, expectedValue))
+            {
                 items.Add(item);
+            }
         }
 
         if (items.Count is not 1)
@@ -63,5 +65,10 @@ internal struct ContainSingleEquality<TSubject, TItem>(
 
     /// <inheritdoc/>
     public string OperatorName
-        => AssertionHelpers.OperationItem("SingleBy", expectedValue);
+    {
+        get
+        {
+            return AssertionHelpers.OperationItem("SingleBy", expectedValue);
+        }
+    }
 }

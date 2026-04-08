@@ -8,16 +8,18 @@
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// Have flag.
+/// Asserts that the enum subject has the specified flag set.
 /// </summary>
-/// <param name="flag">the flag.</param>
-/// <typeparam name="TEnum">the type of the enum.</typeparam>
+/// <param name="flag">The flag that must be present.</param>
+/// <typeparam name="TEnum">The enum type.</typeparam>
 internal readonly struct HaveFlag<TEnum>(TEnum flag) : IAssertionItem<TEnum>
     where TEnum : Enum
 {
     /// <inheritdoc/>
     public bool IsPassed(TEnum subject)
-        => subject.HasFlag(flag);
+    {
+        return subject.HasFlag(flag);
+    }
 
     /// <inheritdoc/>
     public string GenerateMessage(scoped in ObjectAssertion<TEnum> assertion)

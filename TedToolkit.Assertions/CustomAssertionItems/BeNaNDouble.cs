@@ -10,16 +10,20 @@ using TedToolkit.Assertions.Attributes;
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// Be NaN.
+/// Asserts that the <see cref="double"/> subject is <see cref="double.NaN"/>.
 /// </summary>
 [AssertionMethodName("BeNaN")]
 internal readonly struct BeNaNDouble : IAssertionItem<double>
 {
     /// <inheritdoc/>
     public bool IsPassed(double subject)
-        => double.IsNaN(subject);
+    {
+        return double.IsNaN(subject);
+    }
 
     /// <inheritdoc/>
     public string GenerateMessage(scoped in ObjectAssertion<double> assertion)
-        => assertion.GetAssertionItemMessage(Localization.ExpectedStatements.BeNaN);
+    {
+        return assertion.GetAssertionItemMessage(Localization.ExpectedStatements.BeNaN);
+    }
 }

@@ -13,12 +13,12 @@ namespace TedToolkit.Assertions;
 #pragma warning disable CA1815
 
 /// <summary>
-/// Contain single.
+/// Asserts that the collection contains exactly one item matching the predicate. The matched item is extractable via <c>.Which</c>.
 /// </summary>
-/// <param name="predicate">predicate.</param>
-/// <param name="predicateName">predicate name.</param>
-/// <typeparam name="TSubject">the type of the subject.</typeparam>
-/// <typeparam name="TItem">the item.</typeparam>
+/// <param name="predicate">The predicate to match against.</param>
+/// <param name="predicateName">The captured expression of the predicate (auto-filled by the source generator).</param>
+/// <typeparam name="TSubject">The collection type.</typeparam>
+/// <typeparam name="TItem">The element type.</typeparam>
 [AssertionMethodName("ContainSingle")]
 internal struct ContainSinglePredicate<TSubject, TItem>(
     Func<TItem, bool> predicate,
@@ -55,5 +55,10 @@ internal struct ContainSinglePredicate<TSubject, TItem>(
 
     /// <inheritdoc/>
     public string OperatorName
-        => AssertionHelpers.OperationCode("SingleBy", predicateName);
+    {
+        get
+        {
+            return AssertionHelpers.OperationCode("SingleBy", predicateName);
+        }
+    }
 }

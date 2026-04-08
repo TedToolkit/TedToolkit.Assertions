@@ -10,9 +10,10 @@ using System.Diagnostics;
 namespace TedToolkit.Assertions.Attributes;
 
 /// <summary>
-/// The assertion method parameter name attribute.
+/// Marks a constructor parameter so the source generator applies <c>[CallerArgumentExpression]</c> to the
+/// corresponding generated method parameter, automatically capturing the caller's argument expression.
 /// </summary>
-/// <param name="parameterName">name of the parameter.</param>
+/// <param name="parameterName">The name of the constructor parameter whose argument expression should be captured.</param>
 [Conditional("CODE_ANALYSIS")]
 [AttributeUsage(AttributeTargets.Parameter)]
 #pragma warning disable CS9113, CA1019

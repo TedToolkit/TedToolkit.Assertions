@@ -8,13 +8,13 @@
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// Some things that related to the assertions, every assertion may be changed.
+/// Represents a single assertion on a subject, carrying the severity level, subject metadata, and evaluation modifiers.
 /// </summary>
-/// <param name="Type">Assertion type.</param>
-/// <param name="Info">info.</param>
-/// <param name="IsInverted">is inverted.</param>
-/// <param name="IsImmediately">is immediately.</param>
-/// <typeparam name="TSubject">the type of the assertion.</typeparam>
+/// <param name="Type">The assertion severity level.</param>
+/// <param name="Info">The subject value and its associated metadata.</param>
+/// <param name="IsInverted">Whether the assertion logic is negated (via <c>.Not</c>).</param>
+/// <param name="IsImmediately">Whether the assertion should evaluate immediately, bypassing scope collection.</param>
+/// <typeparam name="TSubject">The type of the subject being asserted.</typeparam>
 public readonly record struct ObjectAssertion<TSubject>(
     AssertionType Type,
     scoped in SubjectInfo<TSubject> Info,

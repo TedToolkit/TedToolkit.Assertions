@@ -13,10 +13,10 @@ using TedToolkit.Assertions.Attributes;
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// Match Regex.
+/// Asserts that the string subject produces exactly <paramref name="count"/> matches for the regular expression. The matched values are extractable via <c>.Which</c>.
 /// </summary>
-/// <param name="regularExpression">regex.</param>
-/// <param name="count">count.</param>
+/// <param name="regularExpression">The regular expression pattern.</param>
+/// <param name="count">The expected number of matches.</param>
 [AssertionMethodName("MatchRegex")]
 internal struct MatchRegexMultiple([StringSyntax(StringSyntaxAttribute.Regex)] string regularExpression, int count)
     : IAssertionItem<string, string[]>
@@ -35,12 +35,19 @@ internal struct MatchRegexMultiple([StringSyntax(StringSyntaxAttribute.Regex)] s
 
     /// <inheritdoc/>
     public string GenerateMessage(scoped in ObjectAssertion<string> assertion)
-        => assertion.GetAssertionItemMessage(Localization.ExpectedStatements.Match(regularExpression));
+    {
+        return assertion.GetAssertionItemMessage(Localization.ExpectedStatements.Match(regularExpression));
+    }
 
     /// <inheritdoc/>
     public WhichAssertionResult<string[]> Item { get; private set; }
 
     /// <inheritdoc/>
     public string OperatorName
-        => AssertionHelpers.OperationCode("Regex", regularExpression);
+    {
+        get
+        {
+            return AssertionHelpers.OperationCode("Regex", regularExpression);
+        }
+    }
 }

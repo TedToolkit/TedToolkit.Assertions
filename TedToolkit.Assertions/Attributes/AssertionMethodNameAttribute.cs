@@ -10,9 +10,10 @@ using System.Diagnostics;
 namespace TedToolkit.Assertions.Attributes;
 
 /// <summary>
-/// The assertion method name attribute.
+/// Specifies the name of the extension method that the source generator will create for this assertion item.
+/// Apply multiple times to generate aliases (e.g. <c>Be</c> and <c>BeEqualTo</c>).
 /// </summary>
-/// <param name="name">name.</param>
+/// <param name="name">The desired extension method name.</param>
 [Conditional("CODE_ANALYSIS")]
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = true)]
 #pragma warning disable CS9113, CA1019

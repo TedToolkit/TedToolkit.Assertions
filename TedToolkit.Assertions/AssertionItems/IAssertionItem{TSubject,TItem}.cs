@@ -8,20 +8,21 @@
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// The assertion item. make this type as <b>internal readonly struct</b>.
+/// An assertion check that also extracts an item from the subject, enabling <c>.Which</c> chaining.
+/// Implementors should be <b>internal struct</b>s so the source generator can discover them.
 /// </summary>
-/// <typeparam name="TSubject">the subject.</typeparam>
-/// <typeparam name="TItem">the item type.</typeparam>
+/// <typeparam name="TSubject">The type of the subject being asserted.</typeparam>
+/// <typeparam name="TItem">The type of the item extracted from the subject.</typeparam>
 public interface IAssertionItem<TSubject, TItem> :
     IAssertionItem<TSubject>
 {
     /// <summary>
-    /// Gets the item that it calculated.
+    /// Gets the item extracted during <see cref="IAssertionItem{TSubject}.IsPassed"/> evaluation.
     /// </summary>
     WhichAssertionResult<TItem> Item { get; }
 
     /// <summary>
-    /// Gets the operator name for operation.
+    /// Gets the operator name used to build the sub-operation label for the extracted item.
     /// </summary>
     string OperatorName { get; }
 }

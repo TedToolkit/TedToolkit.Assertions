@@ -8,33 +8,44 @@
 namespace TedToolkit.Assertions.Constraints;
 
 /// <summary>
-/// The 'and' constraint.
+/// Returned by assertion methods to enable fluent chaining via <see cref="And"/> or <see cref="AndIt"/>.
 /// </summary>
-/// <typeparam name="TSubject">the type of the object.</typeparam>
+/// <typeparam name="TSubject">The type of the subject being asserted.</typeparam>
 public readonly record struct AndConstraint<TSubject>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="AndConstraint{TSubject}"/> struct.
-    /// Constructor.
     /// </summary>
-    /// <param name="assertion">the assertion.</param>
+    /// <param name="assertion">The assertion to continue chaining from.</param>
     internal AndConstraint(scoped in ObjectAssertion<TSubject> assertion)
-        => And = assertion;
+    {
+        And = assertion;
+    }
 
     /// <summary>
-    /// Gets 'And' assertion.
+    /// Gets the assertion for chaining additional checks on the same subject.
     /// </summary>
     public ObjectAssertion<TSubject> And { get; }
 
     /// <summary>
-    /// Gets 'And It' assertion.
+    /// Gets a pronoun constraint that allows switching the assertion level (e.g. <c>.AndIt.Should</c>).
     /// </summary>
     public PronounConstraint<TSubject> AndIt
-        => new(And);
+    {
+        get
+        {
+            return new(And);
+        }
+    }
 
     /// <summary>
-    /// Gets get the Value.
+    /// Gets the subject value.
     /// </summary>
     public TSubject Subject
-        => And.Info.Subject;
+    {
+        get
+        {
+            return And.Info.Subject;
+        }
+    }
 }

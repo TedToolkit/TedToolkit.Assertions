@@ -11,13 +11,13 @@ namespace TedToolkit.Assertions;
 #pragma warning disable CA1815
 
 /// <summary>
-/// Contain single.
+/// Asserts that the collection contains an item equal to the expected value, using an <see cref="IComparer{T}"/>.
 /// </summary>
-/// <param name="expectedValue">expected value.</param>
-/// <param name="comparer"> comparer.</param>
-/// <param name="expectedValueName">expected value name.</param>
-/// <typeparam name="TSubject">the type of the subject.</typeparam>
-/// <typeparam name="TItem">the item.</typeparam>
+/// <param name="expectedValue">The value to search for.</param>
+/// <param name="comparer">An optional comparer; defaults to <see cref="Comparer{T}.Default"/>.</param>
+/// <param name="expectedValueName">The captured expression of the expected value (auto-filled by the source generator).</param>
+/// <typeparam name="TSubject">The collection type.</typeparam>
+/// <typeparam name="TItem">The element type.</typeparam>
 [AssertionMethodName("Contain")]
 internal readonly struct ContainComparer<TSubject, TItem>(
     TItem expectedValue,
@@ -33,7 +33,9 @@ internal readonly struct ContainComparer<TSubject, TItem>(
         foreach (var item in subject)
         {
             if (realComparer.Compare(item, expectedValue) is 0)
+            {
                 return true;
+            }
         }
 
         return false;

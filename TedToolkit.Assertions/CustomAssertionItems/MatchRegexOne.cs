@@ -13,9 +13,9 @@ using TedToolkit.Assertions.Attributes;
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// Match Regex.
+/// Asserts that the string subject matches the regular expression. The first match is extractable via <c>.Which</c>.
 /// </summary>
-/// <param name="regularExpression">regex.</param>
+/// <param name="regularExpression">The regular expression pattern.</param>
 [AssertionMethodName("MatchRegex")]
 internal struct MatchRegexOne([StringSyntax(StringSyntaxAttribute.Regex)] string regularExpression)
     : IAssertionItem<string, string>
@@ -25,19 +25,28 @@ internal struct MatchRegexOne([StringSyntax(StringSyntaxAttribute.Regex)] string
     {
         var result = new Regex(regularExpression).Match(subject);
         if (result.Success)
+        {
             Item = result.Value;
+        }
 
         return result.Success;
     }
 
     /// <inheritdoc/>
     public string GenerateMessage(scoped in ObjectAssertion<string> assertion)
-        => assertion.GetAssertionItemMessage(Localization.ExpectedStatements.Match(regularExpression));
+    {
+        return assertion.GetAssertionItemMessage(Localization.ExpectedStatements.Match(regularExpression));
+    }
 
     /// <inheritdoc/>
     public WhichAssertionResult<string> Item { get; private set; }
 
     /// <inheritdoc/>
     public string OperatorName
-        => AssertionHelpers.OperationCode("Regex", regularExpression);
+    {
+        get
+        {
+            return AssertionHelpers.OperationCode("Regex", regularExpression);
+        }
+    }
 }

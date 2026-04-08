@@ -10,12 +10,12 @@ using TedToolkit.Assertions.Attributes;
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// All satisfy.
+/// Asserts that all items in a collection satisfy the given predicate.
 /// </summary>
-/// <param name="predicate">predicate.</param>
-/// <param name="predicateName">the predicate name.</param>
-/// <typeparam name="TSubject">subject type.</typeparam>
-/// <typeparam name="TItem">item type.</typeparam>
+/// <param name="predicate">The predicate each item must satisfy.</param>
+/// <param name="predicateName">The captured expression of the predicate (auto-filled by the source generator).</param>
+/// <typeparam name="TSubject">The collection type.</typeparam>
+/// <typeparam name="TItem">The element type.</typeparam>
 internal readonly struct AllSatisfy<TSubject, TItem>(
     Func<TItem, bool> predicate,
     [AssertionParameterName(nameof(predicate))]
@@ -35,7 +35,9 @@ internal readonly struct AllSatisfy<TSubject, TItem>(
             try
             {
                 if (!predicate(item))
+                {
                     _failedIndexes.Add(index);
+                }
             }
             finally
             {

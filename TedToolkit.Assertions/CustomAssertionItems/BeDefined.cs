@@ -8,17 +8,21 @@
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// Be defined.
+/// Asserts that the enum subject has a defined value.
 /// </summary>
-/// <typeparam name="TEnum">the type of the enum.</typeparam>
+/// <typeparam name="TEnum">The enum type.</typeparam>
 internal readonly struct BeDefined<TEnum> : IAssertionItem<TEnum>
     where TEnum : Enum
 {
     /// <inheritdoc/>
     public bool IsPassed(TEnum subject)
-        => Enum.IsDefined(typeof(TEnum), subject);
+    {
+        return Enum.IsDefined(typeof(TEnum), subject);
+    }
 
     /// <inheritdoc/>
     public string GenerateMessage(scoped in ObjectAssertion<TEnum> assertion)
-        => assertion.GetAssertionItemMessage(Localization.ExpectedStatements.BeDefined);
+    {
+        return assertion.GetAssertionItemMessage(Localization.ExpectedStatements.BeDefined);
+    }
 }

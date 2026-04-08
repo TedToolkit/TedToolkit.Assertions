@@ -10,21 +10,23 @@ using Cysharp.Text;
 namespace TedToolkit.Assertions;
 
 /// <summary>
-/// The info of the subject, which may be record.
+/// Metadata that describes a subject: its expression name, the caller's location, and the time the assertion was created.
 /// </summary>
-/// <param name="SubjectName">subject name.</param>
-/// <param name="CallerInfo">caller info.</param>
-/// <param name="CreatedAt">created time.</param>
+/// <param name="SubjectName">The expression name of the subject (captured via <c>CallerArgumentExpression</c>).</param>
+/// <param name="CallerInfo">The caller's source location.</param>
+/// <param name="CreatedAt">The timestamp when the assertion was created.</param>
 public readonly record struct SubjectInfo(
     string SubjectName,
     CallerInfo CallerInfo,
     DateTimeOffset CreatedAt)
 {
     /// <summary>
-    /// Changed the name of the subject info.
+    /// Creates a derived <see cref="SubjectInfo"/> whose name appends a sub-operation suffix (e.g. <c>items -&gt; SingleBy</c>).
     /// </summary>
-    /// <param name="operation">operation name.</param>
-    /// <returns>result.</returns>
+    /// <param name="operation">The sub-operation name to append.</param>
+    /// <returns>A new <see cref="SubjectInfo"/> with the extended name.</returns>
     public SubjectInfo SubOperation(string operation)
-        => this with { SubjectName = ZString.Concat(SubjectName, " -> ", operation) };
+    {
+        return this with { SubjectName = ZString.Concat(SubjectName, " -> ", operation) };
+    }
 }
