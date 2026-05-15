@@ -5,38 +5,29 @@
 // </copyright>
 // -----------------------------------------------------------------------
 
-using System.Runtime.CompilerServices;
-
 using Microsoft.Extensions.Logging;
 
+using TedToolkit.Assertions.Strategies;
 using TedToolkit.Scopes;
 
 namespace TedToolkit.Assertions.Logging.Tests;
 
 /// <summary>
-/// Behavioral tests for <see cref="LoggerScope"/> and the <see cref="LoggerExtensions"/> entry points.
+/// Behavioral tests for <see cref="AssertionLoggerScope"/> and the <see cref="LoggerExtensions"/> entry points.
 /// </summary>
-internal sealed class LoggerScopeTests
+internal sealed class AssertionLoggerScopeTests
 {
-    static LoggerScopeTests()
-    {
-        // LoggerScope's static constructor replaces the global AssertionStrategy.
-        // Force it to run before any test (especially the "no LoggerScope active"
-        // cases) so behavior does not depend on test ordering.
-        RuntimeHelpers.RunClassConstructor(typeof(LoggerScope).TypeHandle);
-    }
-
     [Test]
     public async Task Push_should_set_current_scope_and_restore_on_dispose()
     {
-        await Assert.That(ScopeValues.Struct<LoggerScope>.HasCurrent).IsFalse();
+        await Assert.That(AssertionStrategyScope.Current is AssertionLoggerScope).IsFalse();
 
         using (new ListLogger().Push())
         {
-            await Assert.That(ScopeValues.Struct<LoggerScope>.HasCurrent).IsTrue();
+            await Assert.That(AssertionStrategyScope.Current is AssertionLoggerScope).IsTrue();
         }
 
-        await Assert.That(ScopeValues.Struct<LoggerScope>.HasCurrent).IsFalse();
+        await Assert.That(AssertionStrategyScope.Current is AssertionLoggerScope).IsFalse();
     }
 
     [Test]
@@ -178,40 +169,4 @@ internal sealed class LoggerScopeTests
 
         await Assert.That(captured).IsNotNull();
     }
-
-    [Test]
-    public async Task Without_LoggerScope_Should_should_be_silent()
-    {
-        // No throw, no log target — just verify the call returns normally.
-        42.Should().Be(43);
-        1.Could().Be(2);
-
-        await Assert.That(ScopeValues.Struct<LoggerScope>.HasCurrent).IsFalse();
-    }
-
-#pragma warning disable TUnitAssertions0002
-    [Test]
-    public void FastPush_should_log_and_dispose_on_synchronous_path()
-    {
-        var logger = new ListLogger();
-
-        Exception? captured = null;
-        using (logger.FastPush())
-        {
-            try
-            {
-                42.Must().Be(43);
-            }
-            catch (ArgumentException ex)
-            {
-                captured = ex;
-            }
-        }
-
-        Assert.That(captured).IsNotNull().GetAwaiter().GetResult();
-        Assert.That(logger.Entries.Count).IsEqualTo(1).GetAwaiter().GetResult();
-        Assert.That(logger.Entries[0].Level).IsEqualTo(LogLevel.Error).GetAwaiter().GetResult();
-        Assert.That(ScopeValues.Struct<LoggerScope>.HasCurrent).IsFalse().GetAwaiter().GetResult();
-    }
-#pragma warning restore TUnitAssertions0002
 }

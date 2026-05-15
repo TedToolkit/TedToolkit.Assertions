@@ -7,34 +7,21 @@
 
 using Microsoft.Extensions.Logging;
 
-using TedToolkit.Scopes;
-
 namespace TedToolkit.Assertions.Logging;
 
 /// <summary>
-/// Extension methods that push a <see cref="LoggerScope"/> as the ambient scope so assertion failures flow into the supplied <see cref="ILogger"/>.
+/// Extension methods that push a <see cref="AssertionLoggerScope"/> as the ambient assertion strategy so failures flow into the supplied <see cref="ILogger"/>.
 /// </summary>
 public static class LoggerExtensions
 {
     /// <summary>
-    /// Pushes a <see cref="LoggerScope"/> wrapping <paramref name="logger"/> as the current async-flow scope.
-    /// Safe across <see langword="await"/> boundaries.
+    /// Pushes a <see cref="AssertionLoggerScope"/> wrapping <paramref name="logger"/> as the current async-flow strategy.
+    /// Dispose the returned scope to restore the previous strategy. Safe across <see langword="await"/> boundaries.
     /// </summary>
     /// <param name="logger">The logger that will receive assertion failure messages.</param>
-    /// <returns>A <see cref="ValueScope{TScope}"/> that restores the previous scope on disposal.</returns>
-    public static ValueScope<LoggerScope> Push(this ILogger logger)
+    /// <returns>The pushed <see cref="AssertionLoggerScope"/>, which restores the previous strategy on disposal.</returns>
+    public static AssertionLoggerScope Push(this ILogger logger)
     {
-        return new LoggerScope(logger).Push();
-    }
-
-    /// <summary>
-    /// Pushes a <see cref="LoggerScope"/> wrapping <paramref name="logger"/> onto a thread-local stack.
-    /// Faster than <see cref="Push(ILogger)"/> but cannot flow across <see langword="await"/> boundaries.
-    /// </summary>
-    /// <param name="logger">The logger that will receive assertion failure messages.</param>
-    /// <returns>A <see cref="FastScope{TScope}"/> that restores the previous scope on disposal.</returns>
-    public static FastScope<LoggerScope> FastPush(this ILogger logger)
-    {
-        return new LoggerScope(logger).FastPush();
+        return new(logger);
     }
 }
