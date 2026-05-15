@@ -14,6 +14,7 @@
     <PackageVersion Include="TedToolkit.Localizations" Version="2026.4.17" />
     <PackageVersion Include="TedToolkit.RoslynHelper" Version="2026.4.17.1" />
     <PackageVersion Include="TedToolkit.Scopes" Version="2026.4.17" />
+    <PackageVersion Include="TUnit" Version="1.35.2" />
     <PackageVersion Include="ZString" Version="2.6.0" />
   </ItemGroup>
 </Project>

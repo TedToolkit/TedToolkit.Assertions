@@ -60,7 +60,7 @@ public static class AssertionHelpers
             return;
         }
 
-        AssertionStrategy.ItemStrategy(assertion.Info.Info, message);
+        AssertionStrategyScope.CurrentOrDefault.HandleAssertionFailure(assertion.Info.Info, message);
     }
 
     /// <summary>

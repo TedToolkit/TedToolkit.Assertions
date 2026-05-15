@@ -16,6 +16,7 @@ var pipeline = new TedPipeline(
         Solution = Solutions.TedToolkit_Assertions,
         TestFiles =
         [
+            Projects.TedToolkit_Assertions_Logging_Tests,
         ],
     },
     new FileInfo(Path.Combine(Projects.Build.Directory!.FullName, "appsettings.json")));

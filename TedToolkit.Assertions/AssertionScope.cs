@@ -17,8 +17,6 @@ namespace TedToolkit.Assertions;
 public readonly record struct AssertionScope() :
     IScope
 {
-    private readonly AssertionScopeHandler? _custom;
-
     /// <summary>
     /// Gets the collected assertion failure messages, grouped by subject.
     /// </summary>
@@ -39,11 +37,9 @@ public readonly record struct AssertionScope() :
     /// </summary>
     /// <param name="context">A label describing the scope (e.g. "validating order").</param>
     /// <param name="tag">An optional object for categorizing or filtering scope results.</param>
-    /// <param name="customHandler">An optional handler to replace the default scope-exit behavior.</param>
-    public AssertionScope(string context, object? tag = null, AssertionScopeHandler? customHandler = null)
+    public AssertionScope(string context, object? tag = null)
         : this()
     {
-        _custom = customHandler;
         Context = context;
         Tag = tag;
     }
@@ -73,6 +69,6 @@ public readonly record struct AssertionScope() :
     /// <inheritdoc/>
     public void OnExit()
     {
-        (_custom ?? AssertionStrategy.ScopeStrategy)(this);
+        AssertionStrategyScope.CurrentOrDefault.HandleScopeFailures(this);
     }
 }
