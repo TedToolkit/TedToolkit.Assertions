@@ -7,6 +7,7 @@
     <Title>Assertion.Logging</Title>
     <Description>Logs assertion failures through Microsoft.Extensions.Logging.</Description>
     <SuppressTfmSupportBuildWarnings>true</SuppressTfmSupportBuildWarnings>
+    <IsAotCompatible Condition="$([MSBuild]::IsTargetFrameworkCompatible('$(TargetFramework)', 'net8.0'))">true</IsAotCompatible>
   </PropertyGroup>
 
   <ItemGroup>
