@@ -31,4 +31,9 @@
     <None Include="..\TedToolkit.Assertions.Analyzer\bin\$(Configuration)\netstandard2.0\ZString.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
     <None Include="..\TedToolkit.Assertions.Analyzer\bin\$(Configuration)\netstandard2.0\System.Memory.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../.agents/skills/write-tedtoolkit-assertions/**/*"
+          Pack="true" PackagePath="skills/write-tedtoolkit-assertions/" />
+  </ItemGroup>
 </Project>
