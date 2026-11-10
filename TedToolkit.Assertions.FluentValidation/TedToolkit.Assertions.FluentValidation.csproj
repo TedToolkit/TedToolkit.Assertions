@@ -18,4 +18,9 @@
     <Analyzer Include="..\TedToolkit.Assertions.Analyzer\bin\$(Configuration)\netstandard2.0\ZString.dll"/>
     <Analyzer Include="..\TedToolkit.Assertions.Analyzer\bin\$(Configuration)\netstandard2.0\System.Memory.dll"/>
   </ItemGroup>
+
+  <ItemGroup>
+    <None Include="../.agents/skills/assert-with-fluentvalidation/**/*"
+          Pack="true" PackagePath="skills/assert-with-fluentvalidation/" />
+  </ItemGroup>
 </Project>
