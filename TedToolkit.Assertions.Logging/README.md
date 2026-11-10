@@ -66,6 +66,10 @@ using (new AssertionScope("validating order").Push())
 - The first reference to `LoggerScope` permanently replaces `AssertionStrategy.ItemStrategy` and `AssertionStrategy.ScopeStrategy` for the AppDomain. Don't combine this package with another strategy customization.
 - **Outside** a `LoggerScope`, `Could` / `Should` failures are silently dropped (no log, no throw). `Must` still throws an `ArgumentException`. Push a `LoggerScope` before running assertions whose failures you want surfaced.
 
+## Agent skill
+
+The `write-tedtoolkit-assertions` skill ships in `TedToolkit.Assertions`, which this package restores as a dependency. If your project references only this package, get the resolved `TedToolkit.Assertions` version from `dotnet package list --include-transitive` and import the skill with `dotnet-package-skills install --package TedToolkit.Assertions@<resolved-version>`.
+
 ## License
 
 [LGPL-3.0](../COPYING.LESSER)

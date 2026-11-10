@@ -1,12 +1,25 @@
 ---
 name: write-tedtoolkit-assertions
 description: >-
-  Write fluent checks and custom assertion items with TedToolkit.Assertions. Use for Must, Should, Could, scoped failures, or missing generated assertion methods.
+  Use TedToolkit.Assertions for fluent checks, custom assertion items, batched failures, and FluentValidation or logging integration.
 ---
 
 # Write TedToolkit Assertions
 
-- Choose `Must`, `Should`, or `Could` according to the caller’s failure policy. Verify that the configured failure strategy has the expected throw, logging, or collection behavior.
-- Use existing assertions first, for example `age.Must().BeGreaterThan(18)`. Use `AssertionScope` when independent failures should be reported together.
-- Add a custom `IAssertionItem<TSubject>` when a rule must be reusable. Build the consumer to verify its fluent extensions are generated, then exercise both a successful value and a failure.
-- When converting a check that guards a later operation, preserve whether it stops execution immediately or contributes to an aggregate failure.
+Choose the failure policy before writing the fluent call. Determine whether a failing check must stop execution, be logged, or join other failures in an `AssertionScope`.
+
+```csharp
+using TedToolkit.Assertions;
+
+age.Must().BeGreaterThan(18);
+age.Should().BeInRange(0, 150);
+```
+
+## Workflow
+
+1. Reuse a built-in check when it expresses the rule. Keep the same subject and failure point when replacing an existing guard.
+2. Use an `AssertionScope` for independent checks. Use `.Immediately` only when a later operation cannot run after a failure.
+3. Implement `IAssertionItem<TSubject>` for a reusable rule. Build the consumer to verify the generated fluent extension and its message.
+4. Verify one passing value and one failing value through the actual failure strategy. For a scoped batch, confirm which failures are surfaced together.
+
+Use [validation and logging integrations](references/integrations.md) when the project already references either adapter.
