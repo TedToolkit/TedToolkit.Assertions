@@ -6,9 +6,6 @@
     <File Path="Directory.Packages.props" />
     <File Path="README.md" />
   </Folder>
-  <Project Path="Build/Build.csproj">
-    <Build Solution="Debug|*" Project="false" />
-  </Project>
   <Project Path="TedToolkit.Assertions.Analyzer/TedToolkit.Assertions.Analyzer.csproj" />
   <Project Path="TedToolkit.Assertions.Benchmark/TedToolkit.Assertions.Benchmark.csproj">
     <Build Solution="Debug|*" Project="false" />
