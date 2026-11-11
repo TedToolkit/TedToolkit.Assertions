@@ -46,6 +46,10 @@ order.Must().BeValidBy(new OrderValidator(), strategy =>
 
 When the assertion fails, the error message includes all validation errors returned by FluentValidation.
 
+## Agent skill
+
+The `write-tedtoolkit-assertions` skill ships in `TedToolkit.Assertions`, which this package restores as a dependency. If your project references only this package, get the resolved `TedToolkit.Assertions` version from `dotnet package list --include-transitive` and import the skill with `dotnet-package-skills install --package TedToolkit.Assertions@<resolved-version>`.
+
 ## License
 
 [LGPL-3.0](../COPYING.LESSER)
